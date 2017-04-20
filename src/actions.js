@@ -1,4 +1,4 @@
-import fetch from 'fetch';
+import fetch from 'whatwg-fetch';
 
 const basePage = 'localhost:300';
 

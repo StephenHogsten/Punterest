@@ -53,15 +53,15 @@ authenticate requests with jwt?
 
 # TO DO
 - [ ] set-up a test API server
-  - [ ] split start commands (need concurrently)
-  - [ ] just return test data
+  - [X] split start commands (need concurrently)
+  - [X] just return test data
   - [ ] (opt) set-up async jest to make sure it works
 - [ ] set-up fake posts to return from the api
 - [ ] successfully pull in the fake posts
 - [ ] create components to display the posts in the body
 - [ ] apply masonry to the fake posts
 
-====
+======
 
 - [ ] mock-up the pieces of the state
   - [ ] decide on some reducers
