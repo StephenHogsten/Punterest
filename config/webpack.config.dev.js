@@ -113,7 +113,8 @@ module.exports = {
           /\.(js|jsx)(\?.*)?$/,
           /\.css$/,
           /\.json$/,
-          /\.svg$/
+          /\.svg$/,
+          /\.scss$/
         ],
         loader: 'url',
         query: {
@@ -134,6 +135,12 @@ module.exports = {
           cacheDirectory: true
         }
       },
+      // create css files from scss
+      {
+				test: /\.scss$/,
+				include: paths.appSrc,
+				loaders: ["style", "css", "sass"]
+			},
       // "postcss" loader applies autoprefixer to our CSS.
       // "css" loader resolves paths in CSS and adds assets as dependencies.
       // "style" loader turns CSS into JS modules that inject <style> tags.
