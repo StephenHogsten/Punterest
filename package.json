@@ -13,6 +13,7 @@
     "nodemon": "^1.11.0",
     "normalizr": "^3.2.2",
     "passport-twitter": "^1.0.4",
+    "prop-types": "^15.5.8",
     "react": "^15.5.4",
     "react-dom": "^15.5.4",
     "react-imageloader": "^2.1.0",
@@ -67,12 +68,12 @@
   },
   "scripts": {
     "start_client": "node scripts/start.js",
-    "start_server": "nodemon server.js",
+    "start_server": "nodemon server.js --watch server --watch server.js",
     "start": "concurrently \"yarn start_client\" \"yarn start_server\"",
     "build": "node scripts/build.js",
     "test": "node scripts/test.js --env=jsdom"
   },
-  "proxy": "http://localhost:3001",
+  "proxy": "http://localhost:3001/",
   "jest": {
     "collectCoverageFrom": [
       "src/**/*.{js,jsx}"

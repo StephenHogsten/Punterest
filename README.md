@@ -16,7 +16,7 @@ use one of these for a responsive grid
 use redux for this one
 authenticate requests with jwt?
 
-# Map
+# Component Map
 - *App Main*
   - Header
     - LoginOrLogout (presentation)
@@ -28,42 +28,39 @@ authenticate requests with jwt?
       - Pins [like, unlike, delete]
   - Footer
 - *Add Pin*
-- *State* 
-  - api errors (arr)
-    - error (text)
-  - pins (arr)
-    - img url (str)
-    - uploader handle (str)
-    - like count (int)
-    - this user likes (bool)
-    - is saving like (bool)
-  - logged in (bool)
-  - logged in user handle (str)
-  - new pin (obj)
-    - url (str)
-    - is saving (bool)
-    - is saved (bool)
-  - filter user only (bool)
 
-
-  
-
-    
-    
+# State Map
+- api errors (arr)
+  - error (text)
+- pins (arr)
+  - img url (str)
+  - uploader handle (str)
+  - like count (int)
+  - this user likes (bool)
+  - is saving like (bool)
+- logged in (bool)
+- logged in user handle (str)
+- new pin (obj)
+  - url (str)
+  - is saving (bool)
+  - is saved (bool)
+- filter user only (bool)
 
 # TO DO
-- [ ] set-up a test API server
+- [X] set-up a test API server
   - [X] split start commands (need concurrently)
   - [X] just return test data
+  - [X] point them to watch the right things
   - [ ] (opt) set-up async jest to make sure it works
-- [ ] set-up fake posts to return from the api
-- [ ] successfully pull in the fake posts
+- [X] set-up fake posts to return from the api
+- [X] add prop-types package and replace react.proptypes with it
+- [X] successfully pull in the fake posts to client
 - [ ] create components to display the posts in the body
 - [ ] apply masonry to the fake posts
 
 ======
 
-- [ ] mock-up the pieces of the state
-  - [ ] decide on some reducers
-- [ ] map out the different components
+- [X] mock-up the pieces of the state
+  - [X] decide on some reducers
+- [X] map out the different components
 - [ ] 

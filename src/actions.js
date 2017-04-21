@@ -1,35 +1,44 @@
-import fetch from 'whatwg-fetch';
+import 'whatwg-fetch';
 
-const basePage = 'localhost:300';
+// ----- MISC CONSTANTS -----
+export const PINS = 'PINS';
 
+// ----- ACTION TYPES -----
 export const LIKE_POST = 'LIKE_POST';
 export const UNLIKE_POST = 'UNLIKE_POST';
-
 export const ADD_POST = 'ADD_POST';
 export const DELETE_POST = 'DELETE_POST';
 
-
-
 export const CREATE_USER = 'CREATE_USER';
-
 export const LOGIN = 'LOGIN';
 export const LOGOUT = 'LOGOUT';
 
+export const NEW_ERROR = 'NEW_ERROR';
+export const FETCH_PINS_REQUEST = 'FETCH_PINS_REQUEST';
+export const FETCH_PINS_FAILURE = 'FETCH_PINS_FAILURE';
+export const FETCH_PINS_SUCCESS = 'FETCH_PINS_SUCCESS';
+export const FETCH_PINS_NONE = 'FETCH_PINS_NONE'
 
-export const FETCH_POSTS_REQUEST = 'FETCH_POSTS';
-export const FETCH_POSTS_FAILURE = 'FETCH_POSTS_FAILURE';
-export const FETCH_POSTS_SUCCESS = 'FETCH_POSTS_SUCCESS';
+
+// ----- ACTIONS ----- 
+export function requestFailed(requestType, error) {
+  return {
+    type: NEW_ERROR,
+    error: error,
+    requestType: requestType
+  }
+}
 
 export function requestPosts(user) {
   return {
-    type: FETCH_POSTS_REQUEST,
+    type: FETCH_PINS_REQUEST,
     user
   };
 }
 
 export function receivePosts(user, json) {
   return {
-    type: FETCH_POSTS_SUCCESS,
+    type: FETCH_PINS_SUCCESS,
     posts: json,
     receivedAt: Date.now()
   };
@@ -38,8 +47,15 @@ export function receivePosts(user, json) {
 export function fetchPosts(user) {
   return (dispatch) => {
     dispatch(requestPosts(user));
-    return fetch(basePage + '/api/test')
-      .then(response => response.json)
-      .then(json => dispatch(receivePosts(user, json)));
+    return fetch('/api/test/pins.json')
+      .then(response => response.json())
+      .then((data) => {
+        console.log('json', data);
+        dispatch(receivePosts(user, data));
+      })
+      .catch( (err) => {
+        console.log('parsing error');
+        dispatch(requestFailed(PINS, err));
+      });
   } 
 }
