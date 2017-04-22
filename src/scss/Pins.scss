@@ -2,5 +2,36 @@
   background: pink;
   color: black;
   min-height: 50px;
-  min-width: 100px;
+  width: 100px;
+}
+
+.pin-body {
+  background-color: #c6b8b8;
+  width: 250px;
+  margin: 15px;
+  padding: 10px;
+  border-radius: 4px;
+  color: #93384a;
+}
+
+.pin-image {
+  width: 100%;
+  background-color: white;
+}
+
+.pin-info-box {
+  height: 30px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px;
+}
+
+.favorites {
+  display: flex;
+  align-items: center;
+}
+
+.likes {
+  margin: 5px;
 }
