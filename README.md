@@ -58,6 +58,14 @@ authenticate requests with jwt?
 - [X] create components to display the posts in the body
 - [X] make it conditionally display the image
 - [ ] apply masonry to the fake posts
+- [ ] add routing switch
+- [ ] create posts
+ - [ ] create API endpoints for saving posts
+ - [ ] create page form for a new post (needs to preview picture)
+ - [ ] allow submitting through endpoint
+ - [ ] link to main page
+- [ ] auto query for pins on page load
+- [ ] ...
 
 ======
 

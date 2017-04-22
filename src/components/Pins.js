@@ -1,6 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import '../scss/Pins.scss';
+import Masonry from 'react-masonry-component';
 
 const Heart = (props) => {
   return props.filled? (
@@ -50,7 +51,9 @@ const Pins = (props) => {
       >
         I am a tester
       </div>
-      <div className='pins-body'>
+      <Masonry 
+        className='pins-body'
+      >
         {props.pins.map( (val, index) => (
           <OnePin 
             key={val.uploader + '.' + val.img_url}
@@ -62,7 +65,7 @@ const Pins = (props) => {
             declareBrokenLink={() => props.declareBrokenLink(index)}
           />
         ))}
-      </div>
+      </Masonry>
     </div>
   );
 }
