@@ -39,11 +39,41 @@ function pins(state=[], action) {
   }
 }
 
+function newPin(state={
+  img_url: '',
+  img_status: actions.FINDING,
+  is_saving: false,
+  is_save: false 
+}, action) {
+  switch (action.type) {
+    case actions.NEW_PIN_TEXT_CHANGE: {
+      let temp = Object.assign( {}, state);
+      temp.img_url = action.img_url;
+      temp.img_status = actions.FINDING;
+      return temp;
+    }
+    case actions.NEW_PIN_IMAGE_FOUND: {
+      let temp = Object.assign( {}, state);
+      if (action.img_status === actions.FOUND_FAILURE) {
+        temp.img_status = actions.FOUND_FAILURE;
+      } else if (action.img_status === actions.FOUND_SUCCESS && state.img_status === actions.FINDING) {
+        console.log('found success')
+        temp.img_status = actions.FOUND_SUCCESS;
+      }
+      console.log(action.img_status, state.img_status);
+      return temp;
+    }
+    default:
+      return state;
+  }
+}
+
 // combines reducers (will use verbose syntax for now)
 export default function rootReducer(state={}, action) {
   return {
     errors: errors(state.errors, action),
     pins: pins(state.pins, action),
-    pinStatus: pinStatus(state.pinStatus, action)
+    pinStatus: pinStatus(state.pinStatus, action),
+    newPin: newPin(state.newPin, action)
   }
 }

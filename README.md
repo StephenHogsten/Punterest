@@ -42,6 +42,7 @@ authenticate requests with jwt?
 - logged in user handle (str)
 - new pin (obj)
   - url (str)
+  - isLoaded
   - is saving (bool)
   - is saved (bool)
 - filter user only (bool)
@@ -57,14 +58,19 @@ authenticate requests with jwt?
 - [X] successfully pull in the fake posts to client
 - [X] create components to display the posts in the body
 - [X] make it conditionally display the image
-- [ ] apply masonry to the fake posts
-- [ ] add routing switch
+- [X] apply masonry to the fake posts
+- [X] add routing switch
 - [ ] create posts
- - [ ] create API endpoints for saving posts
- - [ ] create page form for a new post (needs to preview picture)
- - [ ] allow submitting through endpoint
- - [ ] link to main page
+ - [X] create API endpoints for saving posts
+ - [X] create page form for a new post (needs to preview picture)
+ - [X] allow submitting through endpoint
+ - [X] update the preview pane
+ - [X] check for valid picture first
+ - [ ] 
+ - [ ] redirect back to main page
+ - [ ] clear out testing messages
 - [ ] auto query for pins on page load
+- [ ] (logging in)
 - [ ] ...
 
 ======
@@ -72,3 +78,8 @@ authenticate requests with jwt?
 - [X] mock-up the pieces of the state
   - [X] decide on some reducers
 - [X] map out the different components
+
+## Bonus
+- [ ] validate image before saving pin
+  - [ ] in client
+  - [ ] in server just to make sure

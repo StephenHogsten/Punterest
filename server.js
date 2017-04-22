@@ -4,12 +4,13 @@ const session = require('express-session');
 const mongoose = require('mongoose');
 const MongoStore = require('connect-mongo')(session);
 const bodyParser = require('body-parser');
+const Pin = require('./server/models/Pin');
 
-// mongoose.Promise = global.Promise;
-// mongoose.connect(process.env.MONGO_URI, (err) => {
-//   // eslint-disable-next-line
-//   if (err) console.log('mongoose connection error: ' + err);
-// });
+mongoose.Promise = global.Promise;
+mongoose.connect(process.env.MONGO_URI, (err) => {
+  // eslint-disable-next-line
+  if (err) console.log('mongoose connection error: ' + err);
+});
 
 // initialize app
 const app = express();
@@ -30,7 +31,7 @@ const app = express();
 // // execute my passport set-up
 // // require('./server/configurePassport.js')(passport);
 
-// app.use(bodyParser.urlencoded({extended: false}));
+app.use(bodyParser.urlencoded({extended: false}));
 // app.use(session( sessionOptions ));
 // app.use(passport.initialize());
 // app.use(passport.session());
@@ -45,6 +46,33 @@ app.get('/api/test', (req, res) => {
 app.get('/api/test/pins.json', (req, res) => {
   res.sendFile(process.cwd() + '/mock_data/pins.json');
 });
+
+app.route('/api/pins')
+  .get( (req, res) => {
+    Pin.find( {}, (err, docs) => {
+      res.send(docs.map( (val) => {
+        return {
+          this_user_likes: true,        // TODO add the actual calculation
+          is_saving: false,
+          likes: val.likes.length,
+          img_url: val.img_url,
+          uploader: val.uploader
+        };
+      }));
+    });
+  });
+app.route('/api/pin')
+  .post( (req, res) => {
+    console.log(req.body);
+    Pin.create({
+      uploader: 'hogdogthenewgod',       // TODO - fix this
+      img_url: decodeURIComponent(req.body.img_url),
+      likes: [ 'hogdogthenewgod' ]
+    }, (err) => {
+      if (err) { res.send('error'); }
+      else { res.send('success'); }
+    });
+  });
 
 const port = Number(process.env.PORT) + 1 || 3001;
 app.listen(port, () => {

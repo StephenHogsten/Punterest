@@ -51,9 +51,7 @@ const Pins = (props) => {
       >
         I am a tester
       </div>
-      <Masonry 
-        className='pins-body'
-      >
+      <Masonry className='pins-body'>
         {props.pins.map( (val, index) => (
           <OnePin 
             key={val.uploader + '.' + val.img_url}

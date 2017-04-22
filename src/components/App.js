@@ -1,7 +1,9 @@
 import React, { Component } from 'react';
+import { Switch, Route } from 'react-router-dom';
 import logo from '../logo.svg';
 import '../scss/App.scss';
 import FilterPins from '../containers/FilterPins';
+import MapNewPin from '../containers/MapNewPin';
 
 class App extends Component {
   render() {
@@ -14,7 +16,10 @@ class App extends Component {
         <p className="App-intro">
           To get started, edit <code>src/App.js</code> and save to reload.
         </p>
-        <FilterPins />
+        <Switch>
+          <Route exact key='/' path='/' component={FilterPins} />
+          <Route exact key='/new' path='/new' component={MapNewPin} />
+        </Switch>
       </div>
     );
   }
