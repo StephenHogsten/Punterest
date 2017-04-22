@@ -56,7 +56,7 @@ authenticate requests with jwt?
 - [X] add prop-types package and replace react.proptypes with it
 - [X] successfully pull in the fake posts to client
 - [X] create components to display the posts in the body
-- [ ] make it conditionally display the image
+- [X] make it conditionally display the image
 - [ ] apply masonry to the fake posts
 
 ======

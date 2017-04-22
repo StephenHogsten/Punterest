@@ -9,6 +9,8 @@ export const UNLIKE_POST = 'UNLIKE_POST';
 export const ADD_POST = 'ADD_POST';
 export const DELETE_POST = 'DELETE_POST';
 
+export const BROKEN_IMAGE = 'BROKEN_IMAGE';
+
 export const CREATE_USER = 'CREATE_USER';
 export const LOGIN = 'LOGIN';
 export const LOGOUT = 'LOGOUT';
@@ -21,6 +23,13 @@ export const FETCH_PINS_NONE = 'FETCH_PINS_NONE'
 
 
 // ----- ACTIONS ----- 
+export function declareBrokenLink(index) {
+  return {
+    type: BROKEN_IMAGE,
+    index: index
+  };
+}
+
 export function requestFailed(requestType, error) {
   return {
     type: NEW_ERROR,

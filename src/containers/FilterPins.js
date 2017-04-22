@@ -1,5 +1,5 @@
 import { connect } from 'react-redux';
-import { fetchPosts } from '../actions';
+import { fetchPosts, declareBrokenLink } from '../actions';
 import Pins from '../components/Pins';
 
 function getVisiblePins(currentUser, pins, filterUserOnly) {
@@ -17,7 +17,8 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch, myProps) => {
   return {
-    onClick: () => dispatch(fetchPosts(myProps.currentUser))
+    onClick: () => dispatch(fetchPosts(myProps.currentUser)),
+    declareBrokenLink: (index) => dispatch(declareBrokenLink(index))
   }
 }
 

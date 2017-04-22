@@ -1,4 +1,5 @@
 import * as actions from './actions.js';
+import noImage from './no_image.png';
 
 function errors(state=[], action) {
   switch (action.type) {
@@ -29,6 +30,10 @@ function pins(state=[], action) {
     case actions.FETCH_PINS_SUCCESS:
       // we just got data -> put it in the store
       return action.posts;
+    case actions.BROKEN_IMAGE:
+      let newPosts = state.slice();
+      newPosts[action.index]['img_url'] = noImage;
+      return newPosts;
     default:
       return state;
   }

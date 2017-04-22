@@ -4825,10 +4825,6 @@ react-dom@^15.5.4:
     object-assign "^4.1.0"
     prop-types "~15.5.7"
 
-react-imageloader@^2.1.0:
-  version "2.1.0"
-  resolved "https://registry.yarnpkg.com/react-imageloader/-/react-imageloader-2.1.0.tgz#a58401970b3282386aeb810c43175165634f6308"
-
 react-masonry-component@^5.0.5:
   version "5.0.5"
   resolved "https://registry.yarnpkg.com/react-masonry-component/-/react-masonry-component-5.0.5.tgz#7a6e92fc4f67f6e7c1710b4fb90b4d7e81c0719f"

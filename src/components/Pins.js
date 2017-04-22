@@ -16,7 +16,12 @@ Heart.propTypes = {
 const OnePin = (props) => {
   return (
     <div className='pin-body'>
-      <img src={props.img_url} alt='hilarious' className='pin-image' />
+      <img 
+        src={props.img_url} 
+        alt='hilarious' 
+        className='pin-image' 
+        onError={props.declareBrokenLink}
+      />
       <div className='pin-info-box'>
         <p className='uploader'>{props.uploader}</p>
         <div className='favorites'>
@@ -32,7 +37,8 @@ OnePin.propTypes = {
   uploader: PropTypes.string.isRequired,
   likes: PropTypes.number.isRequired,
   this_user_likes: PropTypes.bool.isRequired,
-  is_saving: PropTypes.bool.isRequired
+  is_saving: PropTypes.bool.isRequired,
+  declareBrokenLink: PropTypes.func.isRequired
 }
 
 const Pins = (props) => {
@@ -45,7 +51,7 @@ const Pins = (props) => {
         I am a tester
       </div>
       <div className='pins-body'>
-        {props.pins.map( (val) => (
+        {props.pins.map( (val, index) => (
           <OnePin 
             key={val.uploader + '.' + val.img_url}
             img_url={val.img_url}
@@ -53,6 +59,7 @@ const Pins = (props) => {
             likes={val.likes}
             this_user_likes={val.this_user_likes}
             is_saving={val.is_saving}
+            declareBrokenLink={() => props.declareBrokenLink(index)}
           />
         ))}
       </div>
@@ -67,7 +74,8 @@ Pins.propTypes = {
     this_user_likes: PropTypes.bool.isRequired,
     is_saving: PropTypes.bool.isRequired
   }).isRequired).isRequired,
-  onClick: PropTypes.func.isRequired
+  onClick: PropTypes.func.isRequired,
+  declareBrokenLink: PropTypes.func.isRequired
 };
 
 export default Pins;
