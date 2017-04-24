@@ -5,6 +5,10 @@ export const PINS = 'PINS';          // type of error
 export const FINDING = 'FINDING';    // finding statuses
 export const FOUND_SUCCESS = 'FOUND_SUCCESS';
 export const FOUND_FAILURE = 'FOUND_FAILURE';
+export const NOT_SUBMITTED = 'NOT_SUBMITTED';
+export const NEW_PIN_SUBMITTED = 'NEW_PIN_SUBMITTED';
+export const NEW_PIN_SUCCESS = 'NEW_PIN_SUCCESS';
+export const NEW_PIN_FAILURE = 'NEW_PIN_FAILURE';
 
 // ----- ACTION TYPES -----
 export const NEW_ERROR = 'NEW_ERROR';
@@ -14,9 +18,10 @@ export const UNLIKE_POST = 'UNLIKE_POST';
 export const ADD_POST = 'ADD_POST';
 export const DELETE_POST = 'DELETE_POST';
 
+export const NEW_PIN_INIT = 'NEW_PIN_INIT';
 export const NEW_PIN_TEXT_CHANGE = 'NEW_PIN_TEXT_CHANGE';
 export const NEW_PIN_IMAGE_FOUND = 'NEW_PIN_IMAGE_FOUND';
-export const NEW_PIN_SUBMIT = 'NEW_PIN_SUBMIT'
+export const NEW_PIN_SUBMIT = 'NEW_PIN_SUBMIT';
 
 export const BROKEN_IMAGE = 'BROKEN_IMAGE';
 
@@ -38,6 +43,12 @@ export function declareBrokenLink(index) {
   };
 }
 
+export function initNewPin() {
+  return {
+    type: NEW_PIN_INIT
+  };
+}
+
 export function updateImageUrl(img_url) {
   return {
     type: NEW_PIN_TEXT_CHANGE,
@@ -46,10 +57,38 @@ export function updateImageUrl(img_url) {
 }
 
 export function foundNewImage(newStatus) {
-  console.log('error', newStatus);
   return {
     type: NEW_PIN_IMAGE_FOUND,
     img_status: newStatus
+  }
+}
+
+export function submitForm(result) {
+  return {
+    type: NEW_PIN_SUBMIT,
+    result: result
+  }
+}
+
+export function fetchSumbitForm(img_status, img_url) {
+  return (dispatch) => {
+    if (img_status !== FOUND_SUCCESS) { return; }
+    dispatch(submitForm(NEW_PIN_SUBMITTED));
+    return fetch('/api/pin/', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({
+        img_url: encodeURIComponent(img_url)
+      })
+    })
+      .then(response => response.json())
+      .then(json => {
+        if (json.success === false) { dispatch(submitForm(NEW_PIN_FAILURE)); }
+        else { dispatch(submitForm(NEW_PIN_SUCCESS)); }
+      })
+      .catch(err => dispatch(submitForm(NEW_PIN_FAILURE)) );
   }
 }
 

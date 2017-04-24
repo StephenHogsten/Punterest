@@ -10,7 +10,7 @@ function errors(state=[], action) {
   }
 }
 
-function pinStatus(state, action) {
+function pinsStatus(state, action) {
   switch (action.type) {
     case actions.FETCH_PINS_REQUEST:
       return actions.FETCH_PINS_REQUEST;
@@ -42,25 +42,41 @@ function pins(state=[], action) {
 function newPin(state={
   img_url: '',
   img_status: actions.FINDING,
-  is_saving: false,
-  is_save: false 
+  saving_status: actions.NOT_SUBMITTED
 }, action) {
   switch (action.type) {
+    // navigated to /new anew
+    case actions.NEW_PIN_INIT: {
+      return {
+        img_url: '',
+        img_status: actions.FINDING,
+        saving_status: actions.NOT_SUBMITTED
+      };
+    }
+    // typed in the URL
     case actions.NEW_PIN_TEXT_CHANGE: {
       let temp = Object.assign( {}, state);
       temp.img_url = action.img_url;
       temp.img_status = actions.FINDING;
+      temp.saving_status = actions.NOT_SUBMITTED;
       return temp;
     }
+    // we decided whether we found it 
     case actions.NEW_PIN_IMAGE_FOUND: {
       let temp = Object.assign( {}, state);
-      if (action.img_status === actions.FOUND_FAILURE) {
+      if (action.img_status === actions.FOUND_FAILURE) {  
+        // if we load an image unsuccessfully set it to failure
         temp.img_status = actions.FOUND_FAILURE;
       } else if (action.img_status === actions.FOUND_SUCCESS && state.img_status === actions.FINDING) {
-        console.log('found success')
+        // if we load an image successfully, make sure it's not the error image before saving
         temp.img_status = actions.FOUND_SUCCESS;
       }
-      console.log(action.img_status, state.img_status);
+      return temp;
+    }
+    // we are trying to save it
+    case actions.NEW_PIN_SUBMIT: {
+      let temp = Object.assign( {}, state);
+      temp.saving_status = action.result;
       return temp;
     }
     default:
@@ -73,7 +89,7 @@ export default function rootReducer(state={}, action) {
   return {
     errors: errors(state.errors, action),
     pins: pins(state.pins, action),
-    pinStatus: pinStatus(state.pinStatus, action),
+    pinsStatus: pinsStatus(state.pinStatus, action),
     newPin: newPin(state.newPin, action)
   }
 }

@@ -1,39 +1,73 @@
-import React from 'react';
+import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { FOUND_SUCCESS } from '../actions';
+import { 
+  FOUND_SUCCESS,
+  NEW_PIN_SUBMITTED,
+  NEW_PIN_SUCCESS,
+  NEW_PIN_FAILURE 
+} from '../actions';
+import '../scss/NewPin.scss';
 
-const NewPin = (props) => {
-  console.log('current state');
-  console.log(props.img_status);
-  console.log(FOUND_SUCCESS);
-  return (
-    <div className='new-pin'>
-      <img 
-        className='pin-image-preview'
-        alt='preview'
-        src={props.img_url}
-        onLoad={props.onLoad}
-        onError={props.onError}
-      />
-      <form action='/api/pin' method='post'>
-        <input 
-          type='text'
-          name='img_url' 
-          className='pin-image-url'
-          required
-          onChange={props.urlOnUpdate}
+class NewPin extends Component {
+  componentWillUpdate(nextState) {
+    if (nextState.saving_status === NEW_PIN_SUCCESS) {
+      this.props.pushHistory('/');
+    }
+  }
+  render() {
+    let savingComponent;
+    switch (this.props.saving_status) {
+      case NEW_PIN_SUBMITTED: 
+        savingComponent = (
+          <div>
+            <i className='material-icons spin-icon'>insert_emoticon</i>
+          </div>
+        );
+        break;
+      case NEW_PIN_FAILURE:
+        savingComponent = (
+          <div className='error-message'>
+            Saving Failed. Note: one user may not upload the same image twice
+          </div>
+        );
+        break;
+      default:
+        savingComponent = null;
+    }
+    return (
+      <div className='new-pin'>
+        <div className='search-area'>
+          <input 
+            type='text'
+            name='img_url' 
+            className='pin-image-url'
+            required
+            onChange={this.props.urlOnUpdate}
+            onKeyDown={(e) => {
+              if (e.keyCode === 13) { this.props.submit(this.props.img_status, this.props.img_url) }
+            }}
+          />
+          <button 
+            type='button'
+            className='submit-button'
+            disabled={this.props.img_status !== FOUND_SUCCESS}
+            onClick={() => this.props.submit(this.props.img_status, this.props.img_url)}
+          >
+            Create Pin
+          </button>
+        </div>
+        <img 
+          className='pin-image-preview'
+          alt='preview'
+          src={this.props.img_url}
+          onLoad={this.props.onLoad}
+          onError={this.props.onError}
         />
-        <button 
-          type='submit'
-          className='submit-button'
-          disabled={props.img_status !== FOUND_SUCCESS}
-        >
-          Create Pin
-        </button>
-      </form>
-    </div> 
-  )
-};
+        {savingComponent}
+      </div> 
+    )
+  }
+}
 NewPin.propTypes = {
   img_url: PropTypes.string,
   is_saving: PropTypes.bool,

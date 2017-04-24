@@ -42,9 +42,8 @@ authenticate requests with jwt?
 - logged in user handle (str)
 - new pin (obj)
   - url (str)
-  - isLoaded
-  - is saving (bool)
-  - is saved (bool)
+  - img status
+  - saving status
 - filter user only (bool)
 
 # TO DO
@@ -66,8 +65,8 @@ authenticate requests with jwt?
  - [X] allow submitting through endpoint
  - [X] update the preview pane
  - [X] check for valid picture first
- - [ ] 
- - [ ] redirect back to main page
+ - [X] make it pretty
+ - [X] redirect back to main page
  - [ ] clear out testing messages
 - [ ] auto query for pins on page load
 - [ ] (logging in)

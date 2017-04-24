@@ -31,7 +31,7 @@ const app = express();
 // // execute my passport set-up
 // // require('./server/configurePassport.js')(passport);
 
-app.use(bodyParser.urlencoded({extended: false}));
+app.use(bodyParser.json());
 // app.use(session( sessionOptions ));
 // app.use(passport.initialize());
 // app.use(passport.session());
@@ -63,14 +63,13 @@ app.route('/api/pins')
   });
 app.route('/api/pin')
   .post( (req, res) => {
-    console.log(req.body);
     Pin.create({
       uploader: 'hogdogthenewgod',       // TODO - fix this
       img_url: decodeURIComponent(req.body.img_url),
       likes: [ 'hogdogthenewgod' ]
-    }, (err) => {
-      if (err) { res.send('error'); }
-      else { res.send('success'); }
+    }, (err, doc) => {
+      if (err) { res.send({ success: false, error: err }); }
+      else { res.send({ success: true }); }
     });
   });
 
