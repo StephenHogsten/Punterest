@@ -9,6 +9,8 @@ export const NOT_SUBMITTED = 'NOT_SUBMITTED';
 export const NEW_PIN_SUBMITTED = 'NEW_PIN_SUBMITTED';
 export const NEW_PIN_SUCCESS = 'NEW_PIN_SUCCESS';
 export const NEW_PIN_FAILURE = 'NEW_PIN_FAILURE';
+export const SUCCESS = 'SUCCESS';
+export const FAILURE = 'FAILURE';
 
 // ----- ACTION TYPES -----
 export const NEW_ERROR = 'NEW_ERROR';
@@ -33,6 +35,8 @@ export const FETCH_PINS_REQUEST = 'FETCH_PINS_REQUEST';
 export const FETCH_PINS_FAILURE = 'FETCH_PINS_FAILURE';
 export const FETCH_PINS_SUCCESS = 'FETCH_PINS_SUCCESS';
 export const FETCH_PINS_NONE = 'FETCH_PINS_NONE'
+
+export const LOGIN_STATUS_CHANGE = 'LOGIN_STATUS_CHANGE';
 
 
 // ----- ACTIONS ----- 
@@ -115,6 +119,7 @@ export function receivePosts(user, json) {
   };
 }
 
+// thunk to retrieve posts
 export function fetchPosts(user) {
   return (dispatch) => {
     dispatch(requestPosts(user));
@@ -129,11 +134,13 @@ export function fetchPosts(user) {
   } 
 }
 
+// help function for whether we should get pins
 function shouldFetchPosts(state) {
   if (state.pins.length === 0) { return true; }
   return state.pinsStatus === FETCH_PINS_NONE;
 }
 
+// thunk to trigger async post retrieval
 export function fetchPostsIfNeeded() {
   return (dispatch, getState) => {
     if (shouldFetchPosts( getState() )) {
@@ -141,5 +148,33 @@ export function fetchPostsIfNeeded() {
     } else {
       return Promise.resolve();
     }
+  }
+}
+
+function submitLogin(status, username) {
+  return {
+    type: LOGIN_STATUS_CHANGE,
+    status: status,
+    username: username
+  };
+}
+
+export function fetchLogin(username, password) {
+  return (dispatch) => {
+    dispatch(submitLogin(FINDING));
+    return fetch('/api/login', {
+      method: 'POST',
+      header: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({
+        username: username,
+        password: password
+      })
+    }).then(response => response.json())
+      .then(json => {
+        if (json.success === false) { dispatch(submitLogin(SUCCESS, json.username)); }
+        else { dispatch(submitLogin(FAILURE)); }
+      }).catch( err => dispatch(submitLogin(FAILURE)) );
   }
 }

@@ -80,12 +80,36 @@ function newPin(state={
   }
 }
 
+function loginStatus(state=actions.NOT_SUBMITTED, action) {
+  switch (action.type) {
+    case actions.LOGIN_STATUS_CHANGE:
+      return action.status;
+    default:
+      return state;
+  }
+}
+
+function userHandle(state='', action) {
+  switch (action.type) {
+    case actions.LOGIN_STATUS_CHANGE:
+      if (action.status === actions.SUCCESS) {
+        return action.username;
+      } else {
+        return state;
+      }
+    default:
+      return state;
+  }
+}
+
 // combines reducers (will use verbose syntax for now)
 export default function rootReducer(state={}, action) {
   return {
     errors: errors(state.errors, action),
     pins: pins(state.pins, action),
     pinsStatus: pinsStatus(state.pinStatus, action),
-    newPin: newPin(state.newPin, action)
+    newPin: newPin(state.newPin, action),
+    loginStatus: loginStatus(state.loginStatus, action),
+    userHandle: userHandle(state.userHandle, action)
   }
 }

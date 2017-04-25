@@ -3,6 +3,8 @@ const express = require('express');
 const session = require('express-session');
 const mongoose = require('mongoose');
 const MongoStore = require('connect-mongo')(session);
+const passport = require('passport');
+const TwitterStrategy = require('passport-twitter').Strategy;
 const bodyParser = require('body-parser');
 const Pin = require('./server/models/Pin');
 
@@ -12,40 +14,43 @@ mongoose.connect(process.env.MONGO_URI, (err) => {
   if (err) console.log('mongoose connection error: ' + err);
 });
 
-// initialize app
+passport.use( 
+  new TwitterStrategy({
+    consumerKey: process.env.TWITTER_KEY,
+    consumerSecret: process.env.TWITTER_SECRET,
+    callbackURL: 'http://127.0.0.1:3000/api/login/callback'
+  }, function(token, tokenSecret, profile, cb) {
+    console.log('token', token);
+    console.log('secret', tokenSecret);
+    console.log('profile', profile);
+    return cb(null, profile);
+  })
+);
+passport.serializeUser((user, cb) => cb(null, user));
+passport.deserializeUser((obj, cb) => cb(null, obj));
+
+
+// INITIALIZE APP
 const app = express();
 
-// var sessionOptions = {
-//   secret: process.env.SECRET || 'simplesecret',
-//   resave: false,
-//   saveUninitialized: true,
-//   store: new MongoStore({
-//     mongooseConnection: mongoose.connection
-//   })
-// };
-// if (process.env.ENV_TYPE === 'PRODUCTION') {
-//   sessionOptions.cookie = { secure: true };
-//   app.set('trust proxy', 1);
-// }
+var sessionOptions = {
+  secret: process.env.SECRET || 'simplesecret',
+  resave: false,
+  saveUninitialized: true,
+  store: new MongoStore({
+    mongooseConnection: mongoose.connection
+  })
+};
+if (process.env.ENV_TYPE === 'PRODUCTION') {
+  sessionOptions.cookie = { secure: true };
+  app.set('trust proxy', 1);
+}
 
-// // execute my passport set-up
-// // require('./server/configurePassport.js')(passport);
 
 app.use(bodyParser.json());
-// app.use(session( sessionOptions ));
-// app.use(passport.initialize());
-// app.use(passport.session());
-
-// const router = require('./server/routes')(passport);
-// app.use('/api', router);d
-
-app.get('/api/test', (req, res) => {
-  res.send('successful test');
-});
-
-app.get('/api/test/pins.json', (req, res) => {
-  res.sendFile(process.cwd() + '/mock_data/pins.json');
-});
+app.use(session( sessionOptions ));
+app.use(passport.initialize());
+app.use(passport.session());
 
 app.route('/api/pins')
   .get( (req, res) => {
@@ -72,6 +77,15 @@ app.route('/api/pin')
       else { res.send({ success: true }); }
     });
   });
+
+app.get('/api/login', passport.authenticate('twitter'));
+app.get('/api/login/callback', passport.authenticate('twitter', { 
+  successRedirect: '/',
+  failureRedirect: '/login' 
+}));
+app.get('/api/checkSession', (req, res) => {
+  res.send('user: ' + JSON.stringify(req.user));
+})
 
 const port = Number(process.env.PORT) + 1 || 3001;
 app.listen(port, () => {

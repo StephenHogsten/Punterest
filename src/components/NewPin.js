@@ -39,7 +39,6 @@ class NewPin extends Component {
         <div className='search-area'>
           <input 
             type='text'
-            name='img_url' 
             className='pin-image-url'
             required
             onChange={this.props.urlOnUpdate}

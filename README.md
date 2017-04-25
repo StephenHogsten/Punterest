@@ -40,6 +40,7 @@ authenticate requests with jwt?
   - is saving like (bool)
 - logged in (bool)
 - logged in user handle (str)
+- login status
 - new pin (obj)
   - url (str)
   - img status
@@ -69,8 +70,17 @@ authenticate requests with jwt?
  - [X] redirect back to main page
  - [X] clear out testing messages
 - [X] auto query for pins on page load
-- [ ] (logging in)
+- [ ] create login form 
+- [ ] make it pretty
+- [ ] set-up passport 
+- [ ] connect form to passport
+- [ ] configure routing so you get back home after logging in
+- [ ] make this work together with the current 'hydrating'
+- [ ] make it so you can only save pins if you're logged in
+- [ ] set-up a 'my pins' page
+- [ ] navigation
 - [ ] ...
+- [ ] clean-up the statuses (just use the same ones and change the type)
 
 ======
 
@@ -79,6 +89,5 @@ authenticate requests with jwt?
 - [X] map out the different components
 
 ## Bonus
-- [ ] validate image before saving pin
-  - [ ] in client
-  - [ ] in server just to make sure
+- [X] validate image before saving pin (in client)
+- [ ] validate image before saving pin (in server)
