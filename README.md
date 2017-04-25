@@ -70,11 +70,12 @@ authenticate requests with jwt?
  - [X] redirect back to main page
  - [X] clear out testing messages
 - [X] auto query for pins on page load
-- [ ] make stupid webpack work from my server
+- [X] make stupid webpack work from my server
   - [X] make it work at all
   - [X] apply loaders
   - [X] use express middleware
-  - [ ] the image serving is a little fishy - may not be pointing / putting it in the right place
+  - [X] make images work for dev server
+  - [ ] (opt) the image serving is a little fishy - may not be pointing / putting it in the right place
 - [ ] make the pins refresh after saving one
 - [ ] set-up passport 
 - [ ] connect form to passport
@@ -84,6 +85,7 @@ authenticate requests with jwt?
 - [ ] set-up a 'my pins' page
 - [ ] navigation
 - [ ] ...
+- [ ] make sure I can generate a actual build with webpack (not just )
 - [ ] deploy to heroku
 - [ ] clean-up the statuses (just use the same ones and change the type)
 - [ ] explain all the webpack nonsense in my notes

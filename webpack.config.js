@@ -13,29 +13,17 @@ module.exports = {
   output: {
     filename: 'bundle.js',
     path: path.resolve(__dirname, 'public'),
-    publicPath: 'http://localhost:300/public/'
+    publicPath: 'http://localhost:3000/'
   },
   module: {
     rules: [
       {
-        exclude: [
-          /\.html$/,
-          // We have to write /\.(js|jsx)(\?.*)?$/ rather than just /\.(js|jsx)$/
-          // because you might change the hot reloading server from the custom one
-          // to Webpack's built-in webpack-dev-server/client?/, which would not
-          // get properly excluded by /\.(js|jsx)$/ because of the query string.
-          // Webpack 2 fixes this, but for now we include this hack.
-          // https://github.com/facebookincubator/create-react-app/issues/1713
-          /\.(js|jsx)(\?.*)?$/,
-          /\.css$/,
-          /\.json$/,
-          /\.svg$/,
-          /\.scss$/
-        ],
+        test: /\.(png|svg)$/,
+        include: paths.appSource,
+        // include: path.join(__dirname, 'images'),
         loader: 'url-loader',
-        query: {
-          limit: 10000,
-          name: 'static/media/[name].[hash:8].[ext]'
+        options: {
+          name: 'images/[name].[ext]'
         }
       },
       {
@@ -54,13 +42,6 @@ module.exports = {
           'postcss-loader',
           'sass-loader'
         ]
-      }, { 
-        test: /\.svg$/,
-        loader: 'file-loader',
-        include: paths.appSource,
-        query: {
-          name: 'public/[name].[hash:8].[ext]'
-        }
       }
     ]
   },

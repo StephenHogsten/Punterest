@@ -71,10 +71,8 @@
     "whatwg-fetch": "2.0.2"
   },
   "scripts": {
-    "start_client": "node scripts/start.js",
-    "start_server": "nodemon server.js --watch server --watch server.js",
     "start_both": "concurrently \"yarn start_client\" \"yarn start_server\"",
-    "start": "webpack",
+    "start": "nodemon server.js --watch server --watch server.js",
     "build": "node scripts/build.js",
     "test": "node scripts/test.js --env=jsdom"
   },
