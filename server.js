@@ -6,9 +6,9 @@ const mongoose = require('mongoose');
 const MongoStore = require('connect-mongo')(session);
 const passport = require('passport');
 const TwitterStrategy = require('passport-twitter').Strategy;
-// const webpackDevMiddleware = require("webpack-dev-middleware");
-// const webpack = require("webpack");
-// const webpackConfig = require("./config/webpack.config");
+const webpackDevMiddleware = require("webpack-dev-middleware");
+const webpack = require("webpack");
+const webpackConfig = require("./webpack.config");
 const bodyParser = require('body-parser');
 
 const Pin = require('./server/models/Pin');
@@ -39,7 +39,6 @@ passport.deserializeUser((obj, cb) => cb(null, obj));
 const app = express();
 
 app.use('/public', express.static(path.join(__dirname, 'public')));
-app.use('/static', express.static(path.join(__dirname, 'public', 'static')));
 
 var sessionOptions = {
   secret: process.env.SECRET || 'simplesecret',
@@ -95,10 +94,11 @@ app.get('/api/checkSession', (req, res) => {
   res.send(req.user);
 });
 
-// let compiler = webpack(webpackConfig);
-// app.use(webpackDevMiddleware(compiler, {
-//   publicPath: '/' 
-// }));
+let compiler = webpack(webpackConfig);
+app.use(webpackDevMiddleware(compiler, {
+  publicPath: '/public',
+  index: 'index.html' 
+}));
 app.use('/', (req, res) => {
   res.sendFile(path.join(process.cwd(), '/public/index.html'));
 });
