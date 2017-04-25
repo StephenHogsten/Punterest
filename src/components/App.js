@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Switch, Route, Link, Redirect } from 'react-router-dom';
+import { Switch, Route, Redirect } from 'react-router-dom';
 import logo from '../logo.svg';
 import '../scss/App.scss';
 import FilterPins from '../containers/FilterPins';

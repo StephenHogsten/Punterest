@@ -70,8 +70,7 @@ authenticate requests with jwt?
  - [X] redirect back to main page
  - [X] clear out testing messages
 - [X] auto query for pins on page load
-- [ ] create login form 
-- [ ] make it pretty
+- [ ] make stupid webpack work from my server
 - [ ] set-up passport 
 - [ ] connect form to passport
 - [ ] configure routing so you get back home after logging in
@@ -81,6 +80,8 @@ authenticate requests with jwt?
 - [ ] navigation
 - [ ] ...
 - [ ] clean-up the statuses (just use the same ones and change the type)
+- [ ] explain all the webpack nonsense in my notes
+- [ ] explain redux in my notes (along with the best patterns)
 
 ======
 

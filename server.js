@@ -1,11 +1,16 @@
 require('dotenv').config();
+const path = require('path');
 const express = require('express');
 const session = require('express-session');
 const mongoose = require('mongoose');
 const MongoStore = require('connect-mongo')(session);
 const passport = require('passport');
 const TwitterStrategy = require('passport-twitter').Strategy;
+// const webpackDevMiddleware = require("webpack-dev-middleware");
+// const webpack = require("webpack");
+// const webpackConfig = require("./config/webpack.config");
 const bodyParser = require('body-parser');
+
 const Pin = require('./server/models/Pin');
 
 mongoose.Promise = global.Promise;
@@ -32,6 +37,9 @@ passport.deserializeUser((obj, cb) => cb(null, obj));
 
 // INITIALIZE APP
 const app = express();
+
+app.use('/public', express.static(path.join(__dirname, 'public')));
+app.use('/static', express.static(path.join(__dirname, 'public', 'static')));
 
 var sessionOptions = {
   secret: process.env.SECRET || 'simplesecret',
@@ -84,10 +92,18 @@ app.get('/api/login/callback', passport.authenticate('twitter', {
   failureRedirect: '/login' 
 }));
 app.get('/api/checkSession', (req, res) => {
-  res.send('user: ' + JSON.stringify(req.user));
-})
+  res.send(req.user);
+});
 
-const port = Number(process.env.PORT) + 1 || 3001;
+// let compiler = webpack(webpackConfig);
+// app.use(webpackDevMiddleware(compiler, {
+//   publicPath: '/' 
+// }));
+app.use('/', (req, res) => {
+  res.sendFile(path.join(process.cwd(), '/public/index.html'));
+});
+
+const port = Number(process.env.PORT) || 3000;
 app.listen(port, () => {
   // eslint-disable-next-line
   console.log('listening on port ' + (port));
