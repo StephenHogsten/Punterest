@@ -10,7 +10,7 @@ function errors(state=[], action) {
   }
 }
 
-function pinsStatus(state, action) {
+function pinsStatus(state=actions.FETCH_PINS_NONE, action) {
   switch (action.type) {
     case actions.FETCH_PINS_REQUEST:
       return actions.FETCH_PINS_REQUEST;
@@ -21,7 +21,7 @@ function pinsStatus(state, action) {
         return actions.FETCH_PINS_FAILURE;
       } else { return actions.FETCH_PINS_NONE; }
     default:  
-      return actions.FETCH_PINS_NONE;
+      return state
   }
 }
 
@@ -45,14 +45,6 @@ function newPin(state={
   saving_status: actions.NOT_SUBMITTED
 }, action) {
   switch (action.type) {
-    // navigated to /new anew
-    case actions.NEW_PIN_INIT: {
-      return {
-        img_url: '',
-        img_status: actions.FINDING,
-        saving_status: actions.NOT_SUBMITTED
-      };
-    }
     // typed in the URL
     case actions.NEW_PIN_TEXT_CHANGE: {
       let temp = Object.assign( {}, state);
@@ -78,6 +70,10 @@ function newPin(state={
       let temp = Object.assign( {}, state);
       temp.saving_status = action.result;
       return temp;
+    }
+    // navigated to /new anew
+    case actions.NEW_PIN_INIT: {
+      return state;
     }
     default:
       return state;

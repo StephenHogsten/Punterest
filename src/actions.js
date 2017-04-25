@@ -128,3 +128,18 @@ export function fetchPosts(user) {
       });
   } 
 }
+
+function shouldFetchPosts(state) {
+  if (state.pins.length === 0) { return true; }
+  return state.pinsStatus === FETCH_PINS_NONE;
+}
+
+export function fetchPostsIfNeeded() {
+  return (dispatch, getState) => {
+    if (shouldFetchPosts( getState() )) {
+      return dispatch( fetchPosts() );
+    } else {
+      return Promise.resolve();
+    }
+  }
+}
