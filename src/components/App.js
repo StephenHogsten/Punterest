@@ -4,6 +4,7 @@ import logo from '../logo.svg';
 import '../scss/App.scss';
 import FilterPins from '../containers/FilterPins';
 import MapNewPin from '../containers/MapNewPin';
+import MapAppBar from '../containers/MapAppBar';
 
 class App extends Component {
   render() {
@@ -13,16 +14,7 @@ class App extends Component {
     }
     return (
       <div className="App">
-        <button type='button' onClick={ 
-          () => window.open('/api/login')
-        }>
-          Login
-        </button>
-        <button type='button' onClick={ 
-          () => window.open('/api/logout')
-        }>
-          Logout
-        </button>
+        <MapAppBar />
         <div className="App-header">
           <img src={logo} className="App-logo" alt="logo" />
           <h2>Welcome to React</h2>

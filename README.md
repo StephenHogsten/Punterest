@@ -78,7 +78,7 @@ authenticate requests with jwt?
 - [X] set-up passport 
 - [X] configure routing so you get back home after logging in
 - [X] make this work together with the current 'hydrating'
-- [ ] add logging out
+- [X] add logging out
 - [ ] navigation
 - [ ] make sure you can only see/do things right depending on login
   - [ ] see login / logout

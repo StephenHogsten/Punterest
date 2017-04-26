@@ -6,6 +6,7 @@ export const PINS = 'PINS';
 export const USER = 'USER';
 // finding statuses
 export const FINDING = 'FINDING';    
+export const NONE = 'NONE';
 export const FETCHING = 'FETCHING';
 export const SUCCESS = 'SUCCESS';
 export const FAILURE = 'FAILURE';
@@ -158,7 +159,8 @@ export function fetchPostsIfNeeded() {
 export function loginStatusChange(status, username) {
   return {
     type: LOGIN_STATUS_CHANGE,
-    status: status
+    status: status,
+    username: username
   }
 }
 

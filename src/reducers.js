@@ -1,5 +1,6 @@
 import * as actions from './actions.js';
 import noImage from './no_image.png';
+import 'whatwg-fetch';
 
 function errors(state=[], action) {
   switch (action.type) {
@@ -93,8 +94,16 @@ function userHandle(state='', action) {
   switch (action.type) {
     case actions.LOGIN_STATUS_CHANGE:
       if (action.status === actions.SUCCESS) {
+        // logged in
+        console.log('logged in');
         return action.username;
+      } else if (action.status === actions.NONE) {
+        // logged out
+        console.log('logging out');
+        fetch('/api/logout', { credentials: 'same-origin' });
+        return '';
       } else {
+        // anything else
         return state;
       }
     default:

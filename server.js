@@ -53,6 +53,8 @@ if (process.env.ENV_TYPE === 'PRODUCTION') {
 
 
 app.use(bodyParser.json());
+// app.use(bodyParser.urlencoded({ extended: false }));
+// app.use(cookieParser());
 app.use(session( sessionOptions ));
 app.use(passport.initialize());
 app.use(passport.session());
@@ -97,6 +99,10 @@ app.get('/api/checkSession', (req, res) => {
     username: req.user? req.user.username: ''
   });
 });
+app.get('/api/logout', (req, res) => {
+  req.logout();
+  res.redirect('/');
+})
 
 let compiler = webpack(webpackConfig);
 app.use(webpackDevMiddleware(compiler, {
