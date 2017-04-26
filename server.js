@@ -7,9 +7,6 @@ const mongoose = require('mongoose');
 const MongoStore = require('connect-mongo')(session);
 const passport = require('passport');
 const TwitterStrategy = require('passport-twitter').Strategy;
-const webpackDevMiddleware = require("webpack-dev-middleware");
-const webpack = require("webpack");
-const webpackConfig = require("./webpack.config");
 const bodyParser = require('body-parser');
 
 const Pin = require('./server/models/Pin');
@@ -24,7 +21,7 @@ passport.use(
   new TwitterStrategy({
     consumerKey: process.env.TWITTER_KEY,
     consumerSecret: process.env.TWITTER_SECRET,
-    callbackURL: 'http://127.0.0.1:3000/api/login/callback'
+    callbackURL: process.env.APP_CALLBACK
   }, function(token, tokenSecret, profile, cb) {
     return cb(null, profile);
   })
@@ -59,6 +56,21 @@ app.use(session( sessionOptions ));
 app.use(passport.initialize());
 app.use(passport.session());
 
+app.get('/api/login', passport.authenticate('twitter'));
+app.get('/api/login/callback', passport.authenticate('twitter', { 
+  successRedirect: '/login_success',
+  failureRedirect: '/login_failure' 
+}));
+app.get('/api/checkSession', (req, res) => {
+  res.json({
+    username: req.user? req.user.username: ''
+  });
+});
+app.get('/api/logout', (req, res) => {
+  req.logout();
+  res.redirect('/');
+});
+
 app.route('/api/pins')
   .get( (req, res) => {
     let username = req.user? req.user.username.toUpperCase(): '';
@@ -89,21 +101,6 @@ app.route('/api/pin')
       else { res.send({ success: true }); }
     });
   });
-
-app.get('/api/login', passport.authenticate('twitter'));
-app.get('/api/login/callback', passport.authenticate('twitter', { 
-  successRedirect: '/login_success',
-  failureRedirect: '/login_failure' 
-}));
-app.get('/api/checkSession', (req, res) => {
-  res.json({
-    username: req.user? req.user.username: ''
-  });
-});
-app.get('/api/logout', (req, res) => {
-  req.logout();
-  res.redirect('/');
-});
 
 app.get('/api/like/:postId', (req, res) => {
   if (!req.user) { return res.send({ success: false, message: 'no user found'}); }
@@ -137,12 +134,6 @@ app.get('/api/delete/:postId', (req, res) => {
   });
 });
 
-let compiler = webpack(webpackConfig);
-app.use(webpackDevMiddleware(compiler, {
-  publicPath: '/public',
-  index: 'index.html',
-  stats: { colors: true }
-}));
 app.use('/', (req, res) => {
   res.sendFile(path.join(process.cwd(), '/public/index.html'));
 });
