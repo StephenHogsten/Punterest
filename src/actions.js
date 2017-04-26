@@ -90,7 +90,10 @@ export function fetchSumbitForm(img_status, img_url) {
       .then(response => response.json())
       .then(json => {
         if (json.success === false) { dispatch(submitForm(NEW_PIN_FAILURE)); }
-        else { dispatch(submitForm(NEW_PIN_SUCCESS)); }
+        else { 
+          dispatch(fetchPosts());
+          dispatch(submitForm(NEW_PIN_SUCCESS)); 
+        }
       })
       .catch(err => dispatch(submitForm(NEW_PIN_FAILURE)) );
   }

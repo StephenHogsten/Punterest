@@ -76,10 +76,9 @@ authenticate requests with jwt?
   - [X] use express middleware
   - [X] make images work for dev server
   - [ ] (opt) the image serving is a little fishy - may not be pointing / putting it in the right place
-- [ ] make the pins refresh after saving one
-- [ ] set-up passport 
-- [ ] connect form to passport
-- [ ] configure routing so you get back home after logging in
+- [X] make the pins refresh after saving one
+- [X] set-up passport 
+- [X] configure routing so you get back home after logging in
 - [ ] make this work together with the current 'hydrating'
 - [ ] make it so you can only save pins if you're logged in
 - [ ] set-up a 'my pins' page
