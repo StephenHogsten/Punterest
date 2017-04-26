@@ -24,7 +24,10 @@ const OnePin = (props) => {
         onError={props.declareBrokenLink}
       />
       <div className='pin-info-box'>
-        <p className='uploader'>{props.uploader}</p>
+        <p 
+          className='uploader'
+          onClick={ () => props.onHandleClick(props.uploader) }
+        >{props.uploader}</p>
         <div 
           className='favorites'
           onClick={() => props.onFavClick(props.pinId, props.this_user_likes)}
@@ -33,6 +36,7 @@ const OnePin = (props) => {
           <Heart filled={props.this_user_likes} />
         </div>
       </div>
+      {props.userHandle}
     </div>
   );
 }
@@ -42,7 +46,9 @@ OnePin.propTypes = {
   likes: PropTypes.number.isRequired,
   this_user_likes: PropTypes.bool.isRequired,
   is_saving: PropTypes.bool.isRequired,
-  declareBrokenLink: PropTypes.func.isRequired
+  declareBrokenLink: PropTypes.func.isRequired,
+  onHandleClick: PropTypes.func.isRequired,
+  onFavClick: PropTypes.func.isRequired
 }
 
 const Pins = (props) => {
@@ -58,6 +64,7 @@ const Pins = (props) => {
           this_user_likes={val.this_user_likes}
           is_saving={val.is_saving}
           declareBrokenLink={() => props.declareBrokenLink(index)}
+          onHandleClick={props.onHandleClick}
           onFavClick={(pinId, isLiked) => props.onFavClick(props.userHandle, pinId, isLiked)}
         />
       ))}
@@ -73,6 +80,7 @@ Pins.propTypes = {
     this_user_likes: PropTypes.bool.isRequired,
     is_saving: PropTypes.bool.isRequired
   }).isRequired).isRequired,
+  onHandleClick: PropTypes.func.isRequired,
   onFavClick: PropTypes.func.isRequired,
   declareBrokenLink: PropTypes.func.isRequired,
 };

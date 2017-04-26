@@ -13,7 +13,7 @@ const AppBar = (props) => {
       {props.userHandle? (
         <div className='buttons'>
           <div className='app-bar-button' onClick={() => {
-            props.enableUserFilter();
+            props.enableUserFilter(props.userHandle);
             props.history.push('/');
           }}>
             My Pins

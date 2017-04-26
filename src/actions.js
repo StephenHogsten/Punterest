@@ -115,10 +115,11 @@ export function requestFailed(requestType, error) {
   }
 }
 
-export function enableUserFilter() {
+export function enableUserFilter(user) {
   return {
     type: USER_FILTER_CHANGE,
-    enabled: true
+    enabled: Boolean(user),
+    user: user
   };
 }
 

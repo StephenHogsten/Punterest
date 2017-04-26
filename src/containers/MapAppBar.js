@@ -15,7 +15,7 @@ const mapStateToProps = (state) => {
 const mapDispatchToProps = (dispatch, myProps) => {
   return {
     onLogoutClick: () => dispatch(logout()),
-    enableUserFilter: () => dispatch(enableUserFilter()),
+    enableUserFilter: (userHandle) => dispatch(enableUserFilter(userHandle)),
     disableUserFilter: () => dispatch(disableUserFilter())
   }
 }

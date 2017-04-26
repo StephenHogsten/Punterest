@@ -11,11 +11,20 @@ function errors(state=[], action) {
   }
 }
 
-function filterUserOnly(state=false, action) {
+function filterOn(state=false, action) {
   switch (action.type) {
     case actions.USER_FILTER_CHANGE:
       return action.enabled;
     default:
+      return state;
+  }
+}
+
+function filterUser(state='', action) {
+  switch (action.type) {
+    case actions.USER_FILTER_CHANGE:
+      return action.enabled? action.user: '';
+    default: 
       return state;
   }
 }
@@ -156,7 +165,8 @@ function userHandle(state='', action) {
 export default function rootReducer(state={}, action) {
   return {
     errors: errors(state.errors, action),
-    filterUserOnly: filterUserOnly(state.filterUserOnly, action),
+    filterOn: filterOn(state.filterOn, action),
+    filterUser: filterUser(state.filterUserOnly, action),
     pins: pins(state.pins, action),
     pinUpdateQueue: pinUpdateQueue(state.pinSaveStatus, action),
     pinUpdateStatus: pinUpdateStatus(state.pinUpdateStatus, action),

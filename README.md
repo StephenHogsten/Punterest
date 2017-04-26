@@ -96,7 +96,7 @@ authenticate requests with jwt?
 - [X] create button for adding a pin
 - [X] something is going weird with redirecting out of /new
 - [X] 404 route
-- [ ] be able to see other users' walls (click on their name)
+- [X] be able to see other users' walls (click on their name)
 - [ ] be able to delete images
 - [ ] ...
 - [ ] make sure I can generate a actual build with webpack (not just )
@@ -119,3 +119,4 @@ authenticate requests with jwt?
 - [ ] paging for the pins (this probably keeps masonry from freaking out)
 - [ ] display saving error messages
 - [ ] make a starter repo for myself
+- [ ] separate the user filters to their own things
