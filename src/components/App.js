@@ -7,7 +7,21 @@ import MapNewPin from '../containers/MapNewPin';
 import MapLoginForm from '../containers/MapLoginForm';
 
 class App extends Component {
+  componentWillUpdate() {
+    console.log('componenet will update: ', window.location.pathname);
+    if (window.location.pathname === '/login_success') {
+      console.log('login_success')
+      window.opener.location.pathname = '/';
+      window.close();
+    }
+  }
   render() {
+    console.log('componenet render: ', window.location.pathname);
+    if (window.location.pathname === '/login_success') {
+      console.log('login_success')
+      window.opener.location.pathname = '/';
+      window.close();
+    }
     return (
       <div className="App">
         <button 
@@ -25,9 +39,7 @@ class App extends Component {
           <Route exact key='/' path='/' component={FilterPins} />
           <Route exact key='/new' path='/new' component={MapNewPin} />
           <Route exact key='/login' path='/login' component={MapLoginForm} />
-          <Route exact key='/login/callback' path='/login/callback' render={ () => (
-            <Redirect to='/api/checkSession' />
-          )} />
+          <Route exact key='/fake/fake' path='/fake/fake' component={MapLoginForm} />
         </Switch>
       </div>
     );

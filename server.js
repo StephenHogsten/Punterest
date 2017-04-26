@@ -87,17 +87,18 @@ app.route('/api/pin')
 
 app.get('/api/login', passport.authenticate('twitter'));
 app.get('/api/login/callback', passport.authenticate('twitter', { 
-  successRedirect: '/',
+  successRedirect: '/login_success',
   failureRedirect: '/login' 
 }));
 app.get('/api/checkSession', (req, res) => {
-  res.send(req.user);
+  res.send(req.user? req.user: 'no active session');
 });
 
 let compiler = webpack(webpackConfig);
 app.use(webpackDevMiddleware(compiler, {
   publicPath: '/public',
-  index: 'index.html' 
+  index: 'index.html',
+  stats: { colors: true }
 }));
 app.use('/', (req, res) => {
   res.sendFile(path.join(process.cwd(), '/public/index.html'));
