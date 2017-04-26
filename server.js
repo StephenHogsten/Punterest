@@ -2,7 +2,7 @@ require('dotenv').config();
 const path = require('path');
 const express = require('express');
 const session = require('express-session');
-const cookieParser = require('cookie-parser');
+// const cookieParser = require('cookie-parser');
 const mongoose = require('mongoose');
 const MongoStore = require('connect-mongo')(session);
 const passport = require('passport');
@@ -61,7 +61,6 @@ app.use(passport.session());
 
 app.route('/api/pins')
   .get( (req, res) => {
-    console.log('req.user ', req.user? req.user.username: 'no');
     Pin.find( {}, (err, docs) => {
       res.send(docs.map( (val) => {
         return {
@@ -76,10 +75,13 @@ app.route('/api/pins')
   });
 app.route('/api/pin')
   .post( (req, res) => {
+    if (!req.user) { return res.send({ success: false, message: 'no user found'}); }
+    let username = req.user.username;
+    if (!username) { return res.send({ success: false, message: 'no username found'}); }
     Pin.create({
-      uploader: 'hogdogthenewgod',       // TODO - fix this
+      uploader: username,       
       img_url: decodeURIComponent(req.body.img_url),
-      likes: [ 'hogdogthenewgod' ]
+      likes: [ username ]
     }, (err, doc) => {
       if (err) { res.send({ success: false, error: err }); }
       else { res.send({ success: true }); }
@@ -92,9 +94,6 @@ app.get('/api/login/callback', passport.authenticate('twitter', {
   failureRedirect: '/login_failure' 
 }));
 app.get('/api/checkSession', (req, res) => {
-  console.log('req.sessionID', req.sessionID);
-  console.log(req.user? true: false);
-  console.log(req.user? req.user.username: false);
   res.json({
     username: req.user? req.user.username: ''
   });

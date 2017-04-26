@@ -80,6 +80,7 @@ export function fetchSumbitForm(img_status, img_url) {
     if (img_status !== FOUND_SUCCESS) { return; }
     dispatch(submitForm(NEW_PIN_SUBMITTED));
     return fetch('/api/pin/', {
+      credentials: 'same-origin',
       method: 'POST',
       headers: {
         'Content-Type': 'application/json'

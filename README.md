@@ -80,12 +80,14 @@ authenticate requests with jwt?
 - [X] make this work together with the current 'hydrating'
 - [X] add logging out
 - [X] navigation
-- [ ] make sure you can only see/do things right depending on login
+- [X] make sure you can only see/do things right depending on login
   - [X] see login / logout
-  - [ ] see add pin page
+  - [X] see add pin page
+  - [X] only saves pin if logged in
 - [ ] set-up a 'my pins' page
 - [ ] allow liking
 - [ ] create button for adding a pin
+- [ ] 404 route
 - [ ] ...
 - [ ] make sure I can generate a actual build with webpack (not just )
 - make sure I don't need cookie-parser, react-fontawesome and remove them
@@ -105,3 +107,5 @@ authenticate requests with jwt?
 - [X] validate image before saving pin (in client)
 - [ ] validate image before saving pin (in server)
 - [ ] paging for the pins (this probably keeps masonry from freaking out)
+- [ ] display saving error messages
+- [ ] make a starter repo for myself

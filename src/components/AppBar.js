@@ -1,15 +1,12 @@
 import React from 'react';
 import { withRouter } from 'react-router-dom';
 import PropTypes from 'prop-types';
-import FontAwesome from 'react-fontawesome';
 import '../scss/AppBar.scss';
 
 const AppBar = (props) => {
-  console.log('font-awesome');
-  console.log(FontAwesome);
   return (
     <div className='app-bar'>
-      <p className='app-title'>Punterest</p>
+      <p className='app-title' onClick={() => props.history.push('/')} >Punterest</p>
       {props.userHandle? (
         <div className='buttons'>
           <div className='app-bar-button' onClick={() => props.history.push('/my_pins')}>

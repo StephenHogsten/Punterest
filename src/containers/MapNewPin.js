@@ -2,6 +2,7 @@ import { connect } from 'react-redux';
 import { 
   FOUND_SUCCESS,
   FOUND_FAILURE,
+  FAILURE,
   updateImageUrl,
   foundNewImage,
   fetchSumbitForm
@@ -13,7 +14,9 @@ const mapStateToProps = (state) => {
   return {
     img_url: state.newPin.img_status === FOUND_FAILURE? noImage: state.newPin.img_url,
     img_status: state.newPin.img_status,
-    saving_status: state.newPin.saving_status
+    saving_status: state.newPin.saving_status,
+    isNotLoggedIn: state.userHandle === '' && state.loginStatus === FAILURE,
+    state: state
   };
 }
 
