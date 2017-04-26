@@ -1,16 +1,20 @@
 import 'whatwg-fetch';
 
 // ----- MISC CONSTANTS -----
-export const PINS = 'PINS';          // type of error
-export const FINDING = 'FINDING';    // finding statuses
+// types of errors
+export const PINS = 'PINS';          
+export const USER = 'USER';
+// finding statuses
+export const FINDING = 'FINDING';    
+export const FETCHING = 'FETCHING';
+export const SUCCESS = 'SUCCESS';
+export const FAILURE = 'FAILURE';
 export const FOUND_SUCCESS = 'FOUND_SUCCESS';
 export const FOUND_FAILURE = 'FOUND_FAILURE';
 export const NOT_SUBMITTED = 'NOT_SUBMITTED';
 export const NEW_PIN_SUBMITTED = 'NEW_PIN_SUBMITTED';
 export const NEW_PIN_SUCCESS = 'NEW_PIN_SUCCESS';
 export const NEW_PIN_FAILURE = 'NEW_PIN_FAILURE';
-export const SUCCESS = 'SUCCESS';
-export const FAILURE = 'FAILURE';
 
 // ----- ACTION TYPES -----
 export const NEW_ERROR = 'NEW_ERROR';
@@ -26,10 +30,6 @@ export const NEW_PIN_IMAGE_FOUND = 'NEW_PIN_IMAGE_FOUND';
 export const NEW_PIN_SUBMIT = 'NEW_PIN_SUBMIT';
 
 export const BROKEN_IMAGE = 'BROKEN_IMAGE';
-
-export const CREATE_USER = 'CREATE_USER';
-export const LOGIN = 'LOGIN';
-export const LOGOUT = 'LOGOUT';
 
 export const FETCH_PINS_REQUEST = 'FETCH_PINS_REQUEST';
 export const FETCH_PINS_FAILURE = 'FETCH_PINS_FAILURE';
@@ -107,14 +107,13 @@ export function requestFailed(requestType, error) {
   }
 }
 
-export function requestPosts(user) {
+export function requestPosts() {
   return {
     type: FETCH_PINS_REQUEST,
-    user
   };
 }
 
-export function receivePosts(user, json) {
+export function receivePosts(json) {
   return {
     type: FETCH_PINS_SUCCESS,
     posts: json,
@@ -123,13 +122,15 @@ export function receivePosts(user, json) {
 }
 
 // thunk to retrieve posts
-export function fetchPosts(user) {
+export function fetchPosts() {
   return (dispatch) => {
-    dispatch(requestPosts(user));
-    return fetch('/api/pins')
+    dispatch(requestPosts());
+    return fetch('/api/pins', { 
+      credentials: 'same-origin'
+    })
       .then(response => response.json())
       .then((data) => {
-        dispatch(receivePosts(user, data));
+        dispatch(receivePosts(data));
       })
       .catch( (err) => {
         dispatch(requestFailed(PINS, err));
@@ -154,30 +155,39 @@ export function fetchPostsIfNeeded() {
   }
 }
 
-function submitLogin(status, username) {
+export function loginStatusChange(status, username) {
   return {
     type: LOGIN_STATUS_CHANGE,
-    status: status,
-    username: username
-  };
+    status: status
+  }
 }
 
-export function fetchLogin(username, password) {
+export function fetchUser() {
   return (dispatch) => {
-    dispatch(submitLogin(FINDING));
-    return fetch('/api/login', {
-      method: 'POST',
-      header: {
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify({
-        username: username,
-        password: password
+    dispatch( loginStatusChange(FETCHING) );
+    return fetch('/api/checkSession', {
+      credentials: 'same-origin'
+    })
+      .then( response => response.json())
+      .then( data => {
+        dispatch(loginStatusChange(data.username? SUCCESS: FAILURE, data.username));
       })
-    }).then(response => response.json())
-      .then(json => {
-        if (json.success === false) { dispatch(submitLogin(SUCCESS, json.username)); }
-        else { dispatch(submitLogin(FAILURE)); }
-      }).catch( err => dispatch(submitLogin(FAILURE)) );
+      .catch( (err) => {
+        dispatch(requestFailed(USER, err));
+      });
+  }
+}
+
+function shouldFetchUser(state) {
+  return state.userHandle === '';
+}
+
+export function fetchUserIfNeeded() {
+  return (dispatch, getState) => {
+    if (shouldFetchUser( getState() )) {
+      return dispatch( fetchUser() );
+    } else {
+      return Promise.resolve();
+    }
   }
 }

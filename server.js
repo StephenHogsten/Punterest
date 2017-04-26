@@ -2,6 +2,7 @@ require('dotenv').config();
 const path = require('path');
 const express = require('express');
 const session = require('express-session');
+const cookieParser = require('cookie-parser');
 const mongoose = require('mongoose');
 const MongoStore = require('connect-mongo')(session);
 const passport = require('passport');
@@ -25,9 +26,6 @@ passport.use(
     consumerSecret: process.env.TWITTER_SECRET,
     callbackURL: 'http://127.0.0.1:3000/api/login/callback'
   }, function(token, tokenSecret, profile, cb) {
-    console.log('token', token);
-    console.log('secret', tokenSecret);
-    console.log('profile', profile);
     return cb(null, profile);
   })
 );
@@ -41,7 +39,7 @@ const app = express();
 // app.use('/public', express.static(path.join(__dirname, 'public')));
 
 var sessionOptions = {
-  secret: process.env.SECRET || 'simplesecret',
+  secret: process.env.SECRET || 'bigoldsecret',
   resave: false,
   saveUninitialized: true,
   store: new MongoStore({
@@ -61,6 +59,7 @@ app.use(passport.session());
 
 app.route('/api/pins')
   .get( (req, res) => {
+    console.log('req.user ', req.user? req.user.username: 'no');
     Pin.find( {}, (err, docs) => {
       res.send(docs.map( (val) => {
         return {
@@ -88,10 +87,15 @@ app.route('/api/pin')
 app.get('/api/login', passport.authenticate('twitter'));
 app.get('/api/login/callback', passport.authenticate('twitter', { 
   successRedirect: '/login_success',
-  failureRedirect: '/login' 
+  failureRedirect: '/login_failure' 
 }));
 app.get('/api/checkSession', (req, res) => {
-  res.send(req.user? req.user: 'no active session');
+  console.log('req.sessionID', req.sessionID);
+  console.log(req.user? true: false);
+  console.log(req.user? req.user.username: false);
+  res.json({
+    username: req.user? req.user.username: ''
+  });
 });
 
 let compiler = webpack(webpackConfig);

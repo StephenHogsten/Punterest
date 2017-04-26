@@ -5,7 +5,7 @@ import { createStore, applyMiddleware } from 'redux';
 import thunk from 'redux-thunk';
 import logger from 'redux-logger';
 import rootReducer from './reducers';
-import { fetchPostsIfNeeded } from './actions';
+import { fetchPostsIfNeeded, fetchUserIfNeeded } from './actions';
 import { BrowserRouter } from 'react-router-dom';
 
 import App from './components/App';
@@ -20,6 +20,7 @@ let store = createStore(
   )
 );
 store.dispatch(fetchPostsIfNeeded());
+store.dispatch(fetchUserIfNeeded());
 
 ReactDOM.render(
   <BrowserRouter>

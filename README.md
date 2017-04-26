@@ -38,7 +38,6 @@ authenticate requests with jwt?
   - like count (int)
   - this user likes (bool)
   - is saving like (bool)
-- logged in (bool)
 - logged in user handle (str)
 - login status
 - new pin (obj)
@@ -75,14 +74,18 @@ authenticate requests with jwt?
   - [X] apply loaders
   - [X] use express middleware
   - [X] make images work for dev server
-  - [ ] (opt) the image serving is a little fishy - may not be pointing / putting it in the right place
 - [X] make the pins refresh after saving one
 - [X] set-up passport 
 - [X] configure routing so you get back home after logging in
-- [ ] make this work together with the current 'hydrating'
-- [ ] make it so you can only save pins if you're logged in
-- [ ] set-up a 'my pins' page
+- [X] make this work together with the current 'hydrating'
+- [ ] add logging out
 - [ ] navigation
+- [ ] make sure you can only see/do things right depending on login
+  - [ ] see login / logout
+  - [ ] see add pin page
+- [ ] set-up a 'my pins' page
+- [ ] allow liking
+- [ ] create button for adding a pin
 - [ ] ...
 - [ ] make sure I can generate a actual build with webpack (not just )
 - [ ] deploy to heroku
@@ -97,6 +100,7 @@ authenticate requests with jwt?
 - [X] map out the different components
 
 ## Bonus
+- [ ] the middleware definitely isn't working correctly.  stupid head
 - [X] validate image before saving pin (in client)
 - [ ] validate image before saving pin (in server)
 - [ ] paging for the pins (this probably keeps masonry from freaking out)
