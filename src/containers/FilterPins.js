@@ -2,12 +2,12 @@ import { connect } from 'react-redux';
 import { 
   fetchUpdateChange,
   declareBrokenLink,
+  fetchDeletePin,
   enableUserFilter
 } from '../actions';
 import Pins from '../components/Pins';
 
 function getVisiblePins(pins, filterOn, filterUser) {
-  console.log('getting visible pins');
   if (!filterUser) return pins;
   if (!filterOn) return pins;
   filterUser = filterUser.toUpperCase();
@@ -27,7 +27,8 @@ const mapDispatchToProps = (dispatch, myProps) => {
     onHandleClick: (user) => dispatch(enableUserFilter(user)),
     onFavClick: (user, pinId, isLiked) => {
       if (user) { dispatch(fetchUpdateChange(pinId, !isLiked)) }
-    }
+    },
+    onDeleteClick: (pinId) => dispatch(fetchDeletePin(pinId))
   }
 }
 

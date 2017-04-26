@@ -26,17 +26,22 @@ const OnePin = (props) => {
       <div className='pin-info-box'>
         <p 
           className='uploader'
-          onClick={ () => props.onHandleClick(props.uploader) }
+          onClick={props.onHandleClick}
         >{props.uploader}</p>
         <div 
           className='favorites'
-          onClick={() => props.onFavClick(props.pinId, props.this_user_likes)}
+          onClick={props.onFavClick}
         >
           <p className='likes'>{props.likes}</p>
           <Heart filled={props.this_user_likes} />
         </div>
       </div>
-      {props.userHandle}
+      {props.showDelete? (
+        <div 
+          className='delete-button'
+          onClick={props.onDeleteClick}
+        >Delete Pin</div>
+      ) : ( null )}
     </div>
   );
 }
@@ -44,14 +49,17 @@ OnePin.propTypes = {
   img_url: PropTypes.string.isRequired,
   uploader: PropTypes.string.isRequired,
   likes: PropTypes.number.isRequired,
+  showDelete: PropTypes.bool.isRequired,
   this_user_likes: PropTypes.bool.isRequired,
   is_saving: PropTypes.bool.isRequired,
   declareBrokenLink: PropTypes.func.isRequired,
   onHandleClick: PropTypes.func.isRequired,
+  onDeleteClick: PropTypes.func.isRequired,
   onFavClick: PropTypes.func.isRequired
 }
 
 const Pins = (props) => {
+  let userHandleUpper = props.userHandle.toUpperCase();
   return (
     <Masonry className='pins-body'>
       {props.pins.map( (val, index) => (
@@ -61,11 +69,13 @@ const Pins = (props) => {
           img_url={val.img_url}
           uploader={val.uploader}
           likes={val.likes}
+          showDelete={val.uploader.toUpperCase() === userHandleUpper}
           this_user_likes={val.this_user_likes}
           is_saving={val.is_saving}
           declareBrokenLink={() => props.declareBrokenLink(index)}
-          onHandleClick={props.onHandleClick}
-          onFavClick={(pinId, isLiked) => props.onFavClick(props.userHandle, pinId, isLiked)}
+          onHandleClick={() => props.onHandleClick(val.uploader)}
+          onDeleteClick={() => props.onDeleteClick(val._id)}
+          onFavClick={() => props.onFavClick(props.userHandle, val._id, val.this_user_likes)}
         />
       ))}
     </Masonry>
@@ -82,6 +92,7 @@ Pins.propTypes = {
   }).isRequired).isRequired,
   onHandleClick: PropTypes.func.isRequired,
   onFavClick: PropTypes.func.isRequired,
+  onDeleteClick: PropTypes.func.isRequired,
   declareBrokenLink: PropTypes.func.isRequired,
 };
 

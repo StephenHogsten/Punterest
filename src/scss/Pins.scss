@@ -1,10 +1,3 @@
-.test-button {
-  background: pink;
-  color: black;
-  min-height: 50px;
-  width: 100px;
-}
-
 .pin-body {
   background-color: #c6b8b8;
   width: 250px;
@@ -34,4 +27,20 @@
 
 .likes {
   margin: 5px;
+}
+
+.delete-button {
+  background-color: #93384a;
+  color: white;
+  border-radius: 3px;
+  font-family: 'Noto Sans', sans-serif;
+  width: 100px;
+  height: 35px;
+  float: right;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  &:hover {
+    background-color: red;
+  }
 }

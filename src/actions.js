@@ -30,6 +30,8 @@ export const NEW_PIN_TEXT_CHANGE = 'NEW_PIN_TEXT_CHANGE';
 export const NEW_PIN_IMAGE_FOUND = 'NEW_PIN_IMAGE_FOUND';
 export const NEW_PIN_SUBMIT = 'NEW_PIN_SUBMIT';
 
+export const DELETE_PIN = 'DELETE_PIN';
+
 export const BROKEN_IMAGE = 'BROKEN_IMAGE';
 
 export const FETCH_PINS_REQUEST = 'FETCH_PINS_REQUEST';
@@ -274,5 +276,21 @@ function processUpdateQueue() {
         dispatch(updateQueueDone());
         dispatch(processUpdateQueue());
       });
+  }
+}
+
+function deletePin(pinId) {
+  return {
+    type: DELETE_PIN,
+    pinId: pinId
+  }
+}
+
+export function fetchDeletePin(pinId) {
+  return (dispatch, getState) => {
+    dispatch(deletePin(pinId));
+    fetch('/api/delete/' + pinId, {
+      credentials: 'same-origin'
+    });
   }
 }

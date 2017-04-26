@@ -103,9 +103,9 @@ app.get('/api/checkSession', (req, res) => {
 app.get('/api/logout', (req, res) => {
   req.logout();
   res.redirect('/');
-})
+});
+
 app.get('/api/like/:postId', (req, res) => {
-  console.log('postId', req.params.postId);
   if (!req.user) { return res.send({ success: false, message: 'no user found'}); }
   let username = req.user.username.toUpperCase();
   if (!username) { return res.send({ success: false, message: 'no username found'}); }
@@ -126,7 +126,16 @@ app.get('/api/unlike/:postId', (req, res) => {
     if (err || !doc) { return res.send({ success: false, message: 'error updating' })}
     res.send({ success: true });
   })
-})
+});
+app.get('/api/delete/:postId', (req, res) => {
+  if (!req.user) { return res.send({ success: false, message: 'no user found'}); }
+  let username = req.user.username;
+  if (!username) { return res.send({ success: false, message: 'no username found'}); }
+  let regex = new RegExp('^' + username + '$', 'i');
+  Pin.find({ _id: req.params.postId }).remove({ uploader: regex}, (err, doc) => {
+    res.send({ success: !Boolean(err)});
+  });
+});
 
 let compiler = webpack(webpackConfig);
 app.use(webpackDevMiddleware(compiler, {

@@ -71,7 +71,7 @@ function pinsStatus(state=actions.FETCH_PINS_NONE, action) {
 
 function pins(state=[], action) {
   switch (action.type) {
-    case actions.UPDATE_QUEUE_PUSH:
+    case actions.UPDATE_QUEUE_PUSH: {
       // must find the right pin in the arr and flip is_liking w/o mutation
       let newArr = state.slice();
       let idx = newArr.findIndex( pin => pin._id === action.pinId);
@@ -81,6 +81,14 @@ function pins(state=[], action) {
       newPin.likes += (action.isLiking? 1: -1);
       newArr[idx] = newPin;
       return newArr;
+    }
+    case actions.DELETE_PIN: {
+      let newArr = state.slice();
+      let idx = newArr.findIndex( pin => pin._id === action.pinId );
+      if (idx === -1) return state;
+      newArr.splice(idx, 1);
+      return newArr;
+    }
     case actions.FETCH_PINS_SUCCESS:
       // we just got data -> put it in the store
       return action.posts;

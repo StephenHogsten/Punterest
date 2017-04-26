@@ -97,11 +97,15 @@ authenticate requests with jwt?
 - [X] something is going weird with redirecting out of /new
 - [X] 404 route
 - [X] be able to see other users' walls (click on their name)
-- [ ] be able to delete images
-- [ ] ...
+- [X] be able to delete images
+- [X] clean out create react app
+- [X] clean out consoles
 - [ ] make sure I can generate a actual build with webpack (not just )
 - make sure I don't need cookie-parser, react-fontawesome and remove them
 - [ ] deploy to heroku
+
+======
+
 - [ ] clean-up the statuses (just use the same ones and change the type)
 - [ ] explain all the webpack nonsense in my notes
 - [ ] explain redux in my notes (along with the best patterns)
@@ -119,4 +123,6 @@ authenticate requests with jwt?
 - [ ] paging for the pins (this probably keeps masonry from freaking out)
 - [ ] display saving error messages
 - [ ] make a starter repo for myself
-- [ ] separate the user filters to their own things
+- [ ] separate the user filters to their own paths
+- [ ] create an algorithm to rank what's shown first
+- [ ] allow user to choose by most popular, most recent, and algorithm

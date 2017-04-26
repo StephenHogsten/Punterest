@@ -10,9 +10,6 @@ import '../scss/NewPin.scss';
 
 class NewPin extends Component {
   redirectIfNotLoggedIn(props) {
-    console.log('state', this.state);
-    console.log('props.state', props.state);
-    console.log('props', props);
     if (props.isNotLoggedIn) {
       props.pushHistory('/');
     }
