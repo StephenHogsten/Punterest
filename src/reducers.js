@@ -166,7 +166,7 @@ export default function rootReducer(state={}, action) {
   return {
     errors: errors(state.errors, action),
     filterOn: filterOn(state.filterOn, action),
-    filterUser: filterUser(state.filterUserOnly, action),
+    filterUser: filterUser(state.filterUser, action),
     pins: pins(state.pins, action),
     pinUpdateQueue: pinUpdateQueue(state.pinSaveStatus, action),
     pinUpdateStatus: pinUpdateStatus(state.pinUpdateStatus, action),
