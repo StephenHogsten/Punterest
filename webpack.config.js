@@ -12,7 +12,7 @@ module.exports = {
   entry: paths.appIndexJs,
   output: {
     filename: 'bundle.js',
-    path: paths.public
+    path: paths.output
   },
   module: {
     rules: [
@@ -43,8 +43,5 @@ module.exports = {
         ]
       }
     ]
-  },
-  plugins: [
-    new webpack.HotModuleReplacementPlugin()
-  ]
+  }
 }
