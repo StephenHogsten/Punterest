@@ -12,8 +12,7 @@ module.exports = {
   entry: paths.appIndexJs,
   output: {
     filename: 'bundle.js',
-    path: path.resolve(__dirname, 'public'),
-    publicPath: 'http://localhost:3000/'
+    path: paths.public
   },
   module: {
     rules: [
