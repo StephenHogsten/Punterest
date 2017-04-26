@@ -79,15 +79,16 @@ authenticate requests with jwt?
 - [X] configure routing so you get back home after logging in
 - [X] make this work together with the current 'hydrating'
 - [X] add logging out
-- [ ] navigation
+- [X] navigation
 - [ ] make sure you can only see/do things right depending on login
-  - [ ] see login / logout
+  - [X] see login / logout
   - [ ] see add pin page
 - [ ] set-up a 'my pins' page
 - [ ] allow liking
 - [ ] create button for adding a pin
 - [ ] ...
 - [ ] make sure I can generate a actual build with webpack (not just )
+- make sure I don't need cookie-parser, react-fontawesome and remove them
 - [ ] deploy to heroku
 - [ ] clean-up the statuses (just use the same ones and change the type)
 - [ ] explain all the webpack nonsense in my notes

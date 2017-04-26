@@ -1,18 +1,35 @@
 import React from 'react';
+import { withRouter } from 'react-router-dom';
 import PropTypes from 'prop-types';
+import FontAwesome from 'react-fontawesome';
 import '../scss/AppBar.scss';
 
 const AppBar = (props) => {
+  console.log('font-awesome');
+  console.log(FontAwesome);
   return (
     <div className='app-bar'>
-      <button type='button' onClick={ 
-        () => window.open('/api/login')
-      }>
-        Login
-      </button>
-      <button type='button' onClick={props.onLogoutClick}>
-        Logout
-      </button>
+      <p className='app-title'>Punterest</p>
+      {props.userHandle? (
+        <div className='buttons'>
+          <div className='app-bar-button' onClick={() => props.history.push('/my_pins')}>
+            My Pins
+          </div>
+          <div className='app-bar-button' onClick={() => {
+            props.onLogoutClick();
+            props.history.push('/');
+          }}>
+            <p>Logout</p>
+          </div>
+        </div>
+      ) : (
+        <div className='app-bar-button' onClick={ 
+          () => window.open('/api/login')
+        }>
+          <i className='fa fa-twitter' />
+          <p>Login</p>
+        </div>
+      )}
     </div>
   )
 }
@@ -21,4 +38,4 @@ AppBar.propTypes = {
   onLogoutClick: PropTypes.func.isRequired
 }
 
-export default AppBar;
+export default withRouter(AppBar);

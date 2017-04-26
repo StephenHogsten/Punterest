@@ -1,3 +1,43 @@
 .app-bar {
-  background-color: green;
+  background-color: #ffd24d;
+  color: #93384a;
+  height: 65px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  position: fixed;
+  top: 0px;
+  width: 100%;
+  z-index: 100;
+}
+
+.app-title {
+  font-family: 'Gloria-Hallelujah', cursive;
+  font-size: 25px;
+  margin: 0px 0px 0px 24px;
+}
+
+.app-bar-button {
+  height: 25px;
+  display: flex;
+  justify-content: space-around;
+  flex-wrap: nowrap;
+  align-items: center;
+  width: 70px;
+  margin-right: 12px;
+  font-family: 'Noto-Sans', sans-serif;
+  border-radius: 3px;
+  border-style: solid;
+  border-color: #ffd24d;
+  &:hover {
+    border-bottom-color: #93384a;
+  }
+}
+
+.buttons {
+  display: flex;
+  justify-content: space-around;
+  flex-wrap: nowrap;
+  align-items: center;
+  width: 150px;
 }
