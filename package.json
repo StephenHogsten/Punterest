@@ -75,7 +75,7 @@
   "scripts": {
     "dev": "nodemon server.js --watch server --watch server.js",
     "start": "node server.js",
-    "postinstall": "webpack -p",
+    "build": "webpack -p",
     "test": "node scripts/test.js --env=jsdom"
   },
   "proxy": "http://localhost:3001/",
