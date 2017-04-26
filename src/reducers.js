@@ -20,6 +20,31 @@ function filterUserOnly(state=false, action) {
   }
 }
 
+function pinUpdateQueue(state=[], action) {
+  switch (action.type) {
+    case actions.UPDATE_QUEUE_PUSH:
+      return state.slice().concat({
+        pinId: action.pinId,
+        isLiking: action.isLiking
+      });
+    case actions.UPDATE_QUEUE_SHIFT:
+      return state.slice(1);
+    default:
+      return state;
+  }
+}
+
+function pinUpdateStatus(state=actions.NONE, action) {
+  switch (action.type) {
+    case actions.UPDATE_QUEUE_SHIFT:
+      return actions.FETCHING;
+    case actions.UPDATE_QUEUE_DONE:
+      return actions.NONE;
+    default:
+      return state;
+  }
+}
+
 function pinsStatus(state=actions.FETCH_PINS_NONE, action) {
   switch (action.type) {
     case actions.FETCH_PINS_REQUEST:
@@ -37,6 +62,16 @@ function pinsStatus(state=actions.FETCH_PINS_NONE, action) {
 
 function pins(state=[], action) {
   switch (action.type) {
+    case actions.UPDATE_QUEUE_PUSH:
+      // must find the right pin in the arr and flip is_liking w/o mutation
+      let newArr = state.slice();
+      let idx = newArr.findIndex( pin => pin._id === action.pinId);
+      if (idx === -1) return state;
+      let newPin = Object.assign({}, newArr[idx]);
+      newPin.this_user_likes = action.isLiking;
+      newPin.likes += (action.isLiking? 1: -1);
+      newArr[idx] = newPin;
+      return newArr;
     case actions.FETCH_PINS_SUCCESS:
       // we just got data -> put it in the store
       return action.posts;
@@ -104,12 +139,9 @@ function userHandle(state='', action) {
     case actions.LOGIN_STATUS_CHANGE:
       if (action.status === actions.SUCCESS) {
         // logged in
-        console.log('logged in');
         return action.username;
       } else if (action.status === actions.NONE) {
         // logged out
-        console.log('logging out');
-        fetch('/api/logout', { credentials: 'same-origin' });
         return '';
       } else {
         // anything else
@@ -126,6 +158,8 @@ export default function rootReducer(state={}, action) {
     errors: errors(state.errors, action),
     filterUserOnly: filterUserOnly(state.filterUserOnly, action),
     pins: pins(state.pins, action),
+    pinUpdateQueue: pinUpdateQueue(state.pinSaveStatus, action),
+    pinUpdateStatus: pinUpdateStatus(state.pinUpdateStatus, action),
     pinsStatus: pinsStatus(state.pinStatus, action),
     newPin: newPin(state.newPin, action),
     loginStatus: loginStatus(state.loginStatus, action),

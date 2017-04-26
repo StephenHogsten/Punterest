@@ -25,7 +25,10 @@ const OnePin = (props) => {
       />
       <div className='pin-info-box'>
         <p className='uploader'>{props.uploader}</p>
-        <div className='favorites'>
+        <div 
+          className='favorites'
+          onClick={() => props.onFavClick(props.pinId, props.this_user_likes)}
+        >
           <p className='likes'>{props.likes}</p>
           <Heart filled={props.this_user_likes} />
         </div>
@@ -44,27 +47,21 @@ OnePin.propTypes = {
 
 const Pins = (props) => {
   return (
-    <div>
-      <div 
-        className='test-button'
-        onClick={props.onClick}
-      >
-        I am a tester
-      </div>
-      <Masonry className='pins-body'>
-        {props.pins.map( (val, index) => (
-          <OnePin 
-            key={val.uploader + '.' + val.img_url}
-            img_url={val.img_url}
-            uploader={val.uploader}
-            likes={val.likes}
-            this_user_likes={val.this_user_likes}
-            is_saving={val.is_saving}
-            declareBrokenLink={() => props.declareBrokenLink(index)}
-          />
-        ))}
-      </Masonry>
-    </div>
+    <Masonry className='pins-body'>
+      {props.pins.map( (val, index) => (
+        <OnePin 
+          key={val.uploader + '.' + val.img_url}
+          pinId={val._id}
+          img_url={val.img_url}
+          uploader={val.uploader}
+          likes={val.likes}
+          this_user_likes={val.this_user_likes}
+          is_saving={val.is_saving}
+          declareBrokenLink={() => props.declareBrokenLink(index)}
+          onFavClick={(pinId, isLiked) => props.onFavClick(props.userHandle, pinId, isLiked)}
+        />
+      ))}
+    </Masonry>
   );
 }
 Pins.propTypes = {
@@ -76,8 +73,8 @@ Pins.propTypes = {
     this_user_likes: PropTypes.bool.isRequired,
     is_saving: PropTypes.bool.isRequired
   }).isRequired).isRequired,
-  onClick: PropTypes.func.isRequired,
-  declareBrokenLink: PropTypes.func.isRequired
+  onFavClick: PropTypes.func.isRequired,
+  declareBrokenLink: PropTypes.func.isRequired,
 };
 
 export default Pins;

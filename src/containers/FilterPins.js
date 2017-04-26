@@ -1,12 +1,12 @@
 import { connect } from 'react-redux';
-import { fetchPosts, declareBrokenLink } from '../actions';
+import { fetchUpdateChange, declareBrokenLink } from '../actions';
 import Pins from '../components/Pins';
 
-function getVisiblePins(currentUser, pins, filterUserOnly) {
-  if (!currentUser) return pins;
+function getVisiblePins(userHandle, pins, filterUserOnly) {
+  if (!userHandle) return pins;
   if (!filterUserOnly) return pins;
-  currentUser = currentUser.toUpperCase();
-  return pins.filter( (pin) => pin.uploader.toUpperCase() === currentUser); 
+  userHandle = userHandle.toUpperCase();
+  return pins.filter( (pin) => pin.uploader.toUpperCase() === userHandle); 
 }
 
 const mapStateToProps = (state) => {
@@ -18,8 +18,10 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch, myProps) => {
   return {
-    onClick: () => dispatch(fetchPosts(myProps.currentUser)),
     declareBrokenLink: (index) => dispatch(declareBrokenLink(index)),
+    onFavClick: (user, pinId, isLiked) => {
+      if (user) { dispatch(fetchUpdateChange(pinId, !isLiked)) }
+    }
   }
 }
 

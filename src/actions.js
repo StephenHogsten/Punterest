@@ -1,15 +1,18 @@
 import 'whatwg-fetch';
 
 // ----- MISC CONSTANTS -----
+
 // types of errors
 export const PINS = 'PINS';          
 export const USER = 'USER';
+
 // finding statuses
 export const FINDING = 'FINDING';    
 export const NONE = 'NONE';
 export const FETCHING = 'FETCHING';
 export const SUCCESS = 'SUCCESS';
 export const FAILURE = 'FAILURE';
+
 export const FOUND_SUCCESS = 'FOUND_SUCCESS';
 export const FOUND_FAILURE = 'FOUND_FAILURE';
 export const NOT_SUBMITTED = 'NOT_SUBMITTED';
@@ -20,10 +23,7 @@ export const NEW_PIN_FAILURE = 'NEW_PIN_FAILURE';
 // ----- ACTION TYPES -----
 export const NEW_ERROR = 'NEW_ERROR';
 
-export const LIKE_POST = 'LIKE_POST';
-export const UNLIKE_POST = 'UNLIKE_POST';
-export const ADD_POST = 'ADD_POST';
-export const DELETE_POST = 'DELETE_POST';
+export const UPDATE_PIN_STATUS_CHANGE = 'UPDATE_PIN_STATUS_CHANGE';
 
 export const NEW_PIN_INIT = 'NEW_PIN_INIT';
 export const NEW_PIN_TEXT_CHANGE = 'NEW_PIN_TEXT_CHANGE';
@@ -41,6 +41,10 @@ export const LOGIN_STATUS_CHANGE = 'LOGIN_STATUS_CHANGE';
 
 export const USER_FILTER_CHANGE = 'USER_FILTER_CHANGE';
 
+export const UPDATE_QUEUE_PUSH = 'UPDATE_QUEUE_PUSH';
+export const UPDATE_QUEUE_SHIFT = 'UPDATE_QUEUE_SHIFT';
+export const UPDATE_QUEUE_DONE = 'UPDATE_QUEUE_DONE';
+export const UPDATE_QUEUE_PROCESSING = 'UPDATE_QUEUE_PROCESSING';
 
 // ----- ACTIONS ----- 
 export function declareBrokenLink(index) {
@@ -181,6 +185,19 @@ export function loginStatusChange(status, username) {
   }
 }
 
+export function logout() {
+  return (dispatch, getState) => {
+    dispatch(loginStatusChange(NONE));
+    dispatch(disableUserFilter());
+    fetch('/api/logout', {
+      credentials: 'same-origin'
+    })
+      .then( () => {
+        dispatch(fetchPosts());
+      });
+  }
+}
+
 export function fetchUser() {
   return (dispatch) => {
     dispatch( loginStatusChange(FETCHING) );
@@ -208,5 +225,53 @@ export function fetchUserIfNeeded() {
     } else {
       return Promise.resolve();
     }
+  }
+}
+
+function updateQueuePush(pinId, isLiking) {
+  return {
+    type: UPDATE_QUEUE_PUSH,
+    pinId: pinId,
+    isLiking: isLiking
+  }
+}
+
+function updateQueueShift() {
+  return {
+    type: UPDATE_QUEUE_SHIFT
+  }
+}
+
+function updateQueueDone() {
+  return {
+    type: UPDATE_QUEUE_DONE
+  }
+}
+
+export function fetchUpdateChange(pinId, isLiking) {
+  return (dispatch, getState) => {
+    dispatch(updateQueuePush(pinId, isLiking));
+    dispatch(processUpdateQueue());
+  }
+}
+
+function processUpdateQueue() {
+  return (dispatch, getState) => {
+    let state = getState();
+    if (state.pinUpdateStatus === FETCHING) { return; }         // already processing
+    let queue = state.pinUpdateQueue;
+    if (queue.length < 1) return dispatch(updateQueueDone());   // queue is empty
+
+    // ready to actually process the next entry
+    let pin = queue[0];
+    dispatch(updateQueueShift());     // take it out of the queue, and start processing
+    let query = '/api/' + (pin.isLiking? 'like': 'unlike') + '/' + pin.pinId;
+    return fetch(query, {
+      credentials: 'same-origin'
+    })
+      .then(() => {
+        dispatch(updateQueueDone());
+        dispatch(processUpdateQueue());
+      });
   }
 }

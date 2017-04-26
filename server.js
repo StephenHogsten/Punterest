@@ -61,10 +61,12 @@ app.use(passport.session());
 
 app.route('/api/pins')
   .get( (req, res) => {
+    let username = req.user? req.user.username.toUpperCase(): '';
     Pin.find( {}, (err, docs) => {
       res.send(docs.map( (val) => {
         return {
-          this_user_likes: true,        // TODO add the actual calculation
+          _id: val._id,
+          this_user_likes: val.likes.includes(username),        // should store all handles as caps
           is_saving: false,
           likes: val.likes.length,
           img_url: val.img_url,
@@ -81,7 +83,7 @@ app.route('/api/pin')
     Pin.create({
       uploader: username,       
       img_url: decodeURIComponent(req.body.img_url),
-      likes: [ username ]
+      likes: [ username.toUpperCase() ]
     }, (err, doc) => {
       if (err) { res.send({ success: false, error: err }); }
       else { res.send({ success: true }); }
@@ -101,6 +103,29 @@ app.get('/api/checkSession', (req, res) => {
 app.get('/api/logout', (req, res) => {
   req.logout();
   res.redirect('/');
+})
+app.get('/api/like/:postId', (req, res) => {
+  console.log('postId', req.params.postId);
+  if (!req.user) { return res.send({ success: false, message: 'no user found'}); }
+  let username = req.user.username.toUpperCase();
+  if (!username) { return res.send({ success: false, message: 'no username found'}); }
+  Pin.update({ _id: req.params.postId }, { $addToSet: {
+    likes: username
+  }}, (err, doc) => {
+    if (err || !doc) { return res.send({ success: false, message: 'error updating' })}
+    res.send({ success: true });
+  });
+})
+app.get('/api/unlike/:postId', (req, res) => {
+  if (!req.user) { return res.send({ success: false, message: 'no user found'}); }
+  let username = req.user.username.toUpperCase();
+  if (!username) { return res.send({ success: false, message: 'no username found'}); }
+  Pin.update({ _id: req.params.postId }, { $pull: {
+    likes: username
+  }}, (err, doc) => {
+    if (err || !doc) { return res.send({ success: false, message: 'error updating' })}
+    res.send({ success: true });
+  })
 })
 
 let compiler = webpack(webpackConfig);

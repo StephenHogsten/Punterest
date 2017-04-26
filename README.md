@@ -86,9 +86,18 @@ authenticate requests with jwt?
   - [X] see add pin page
   - [X] only saves pin if logged in
 - [X] set-up a 'my pins' page
-- [ ] allow liking
+- [X] allow liking
+  - [X] make the server properly set currentUserLikes
+  - [X] make the client properly display filled in heart or not
+  - [X] make the add function- needs to trigger saving to the DB and changing the pin object in the array without mutating
+  - [X] make the remove function (same as above)
+  - [X] link fn to clicking
+  - [X] probably need a queue or something for DB requests in case they click faster than the DB connection
 - [X] create button for adding a pin
-- [ ] 404 route
+- [X] something is going weird with redirecting out of /new
+- [X] 404 route
+- [ ] be able to see other users' walls (click on their name)
+- [ ] be able to delete images
 - [ ] ...
 - [ ] make sure I can generate a actual build with webpack (not just )
 - make sure I don't need cookie-parser, react-fontawesome and remove them

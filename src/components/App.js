@@ -28,6 +28,9 @@ class App extends Component {
           <Route exact key='/login_failure' path='/login_failure' render={() => (
             <div className='error-message'>Login Failed</div>
           )} />
+          <Route render={() => (
+            <div className='error-message'>Invalid path given</div>
+          )} />
         </Switch>
       </div>
     );

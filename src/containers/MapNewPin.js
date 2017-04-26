@@ -15,8 +15,7 @@ const mapStateToProps = (state) => {
     img_url: state.newPin.img_status === FOUND_FAILURE? noImage: state.newPin.img_url,
     img_status: state.newPin.img_status,
     saving_status: state.newPin.saving_status,
-    isNotLoggedIn: state.userHandle === '' && state.loginStatus === FAILURE,
-    state: state
+    isNotLoggedIn: state.userHandle === '' && state.loginStatus === FAILURE
   };
 }
 

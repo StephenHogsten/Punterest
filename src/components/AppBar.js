@@ -12,7 +12,10 @@ const AppBar = (props) => {
       }} >Punterest</p>
       {props.userHandle? (
         <div className='buttons'>
-          <div className='app-bar-button' onClick={props.enableUserFilter}>
+          <div className='app-bar-button' onClick={() => {
+            props.enableUserFilter();
+            props.history.push('/');
+          }}>
             My Pins
           </div>
           <div className='app-bar-button' onClick={() => props.history.push('/new')}>

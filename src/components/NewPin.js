@@ -9,17 +9,20 @@ import {
 import '../scss/NewPin.scss';
 
 class NewPin extends Component {
-  redirectIfNotLoggedIn() {
-    if (this.props.isNotLoggedIn) {
-      this.props.pushHistory('/');
+  redirectIfNotLoggedIn(props) {
+    console.log('state', this.state);
+    console.log('props.state', props.state);
+    console.log('props', props);
+    if (props.isNotLoggedIn) {
+      props.pushHistory('/');
     }
   }
   componentWillMount() {
-    this.redirectIfNotLoggedIn();
+    this.redirectIfNotLoggedIn(this.props);
   }
-  componentWillUpdate(nextState) {
-    this.redirectIfNotLoggedIn();
-    if (nextState.saving_status === NEW_PIN_SUCCESS) {
+  componentWillUpdate(nextProps) {
+    this.redirectIfNotLoggedIn(nextProps);
+    if (nextProps.saving_status === NEW_PIN_SUCCESS) {
       this.props.pushHistory('/');
     }
   }
