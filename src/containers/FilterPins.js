@@ -5,20 +5,21 @@ import Pins from '../components/Pins';
 function getVisiblePins(currentUser, pins, filterUserOnly) {
   if (!currentUser) return pins;
   if (!filterUserOnly) return pins;
-  return pins.filter( (pin) => pin.uploader === currentUser); 
+  currentUser = currentUser.toUpperCase();
+  return pins.filter( (pin) => pin.uploader.toUpperCase() === currentUser); 
 }
 
 const mapStateToProps = (state) => {
   return {
-    currentUser: state.currentUser,
-    pins: getVisiblePins(state.currentUser, state.pins, state.filterUserOnly)
+    userHandle: state.userHandle,
+    pins: getVisiblePins(state.userHandle, state.pins, state.filterUserOnly)
   }
 }
 
 const mapDispatchToProps = (dispatch, myProps) => {
   return {
     onClick: () => dispatch(fetchPosts(myProps.currentUser)),
-    declareBrokenLink: (index) => dispatch(declareBrokenLink(index))
+    declareBrokenLink: (index) => dispatch(declareBrokenLink(index)),
   }
 }
 

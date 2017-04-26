@@ -6,11 +6,17 @@ import '../scss/AppBar.scss';
 const AppBar = (props) => {
   return (
     <div className='app-bar'>
-      <p className='app-title' onClick={() => props.history.push('/')} >Punterest</p>
+      <p className='app-title' onClick={() => {
+        props.disableUserFilter();
+        props.history.push('/');
+      }} >Punterest</p>
       {props.userHandle? (
         <div className='buttons'>
-          <div className='app-bar-button' onClick={() => props.history.push('/my_pins')}>
+          <div className='app-bar-button' onClick={props.enableUserFilter}>
             My Pins
+          </div>
+          <div className='app-bar-button' onClick={() => props.history.push('/new')}>
+            New Pin
           </div>
           <div className='app-bar-button' onClick={() => {
             props.onLogoutClick();
@@ -32,7 +38,9 @@ const AppBar = (props) => {
 }
 AppBar.propTypes = {
   userHandle: PropTypes.string,
-  onLogoutClick: PropTypes.func.isRequired
+  onLogoutClick: PropTypes.func.isRequired,
+  enableUserFilter: PropTypes.func.isRequired,
+  disableUserFilter: PropTypes.func.isRequired
 }
 
 export default withRouter(AppBar);

@@ -32,6 +32,7 @@ authenticate requests with jwt?
 # State Map
 - api errors (arr)
   - error (text)
+- filterUserOnly
 - pins (arr)
   - img url (str)
   - uploader handle (str)
@@ -84,9 +85,9 @@ authenticate requests with jwt?
   - [X] see login / logout
   - [X] see add pin page
   - [X] only saves pin if logged in
-- [ ] set-up a 'my pins' page
+- [X] set-up a 'my pins' page
 - [ ] allow liking
-- [ ] create button for adding a pin
+- [X] create button for adding a pin
 - [ ] 404 route
 - [ ] ...
 - [ ] make sure I can generate a actual build with webpack (not just )

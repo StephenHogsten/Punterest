@@ -1,5 +1,9 @@
 import { connect } from 'react-redux';
-import { loginStatusChange, NONE } from '../actions';
+import { 
+  loginStatusChange, 
+  enableUserFilter,
+  disableUserFilter,
+  NONE } from '../actions';
 import AppBar from '../components/AppBar';
 
 const mapStateToProps = (state) => {
@@ -11,9 +15,11 @@ const mapStateToProps = (state) => {
 const mapDispatchToProps = (dispatch, myProps) => {
   return {
     onLogoutClick: () => {
-      console.log('logout clicked');
-      dispatch(loginStatusChange(NONE))
-    }
+      dispatch(loginStatusChange(NONE));
+      dispatch(disableUserFilter());
+    },
+    enableUserFilter: () => dispatch(enableUserFilter()),
+    disableUserFilter: () => dispatch(disableUserFilter())
   }
 }
 

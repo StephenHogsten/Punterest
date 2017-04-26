@@ -39,6 +39,8 @@ export const FETCH_PINS_NONE = 'FETCH_PINS_NONE'
 
 export const LOGIN_STATUS_CHANGE = 'LOGIN_STATUS_CHANGE';
 
+export const USER_FILTER_CHANGE = 'USER_FILTER_CHANGE';
+
 
 // ----- ACTIONS ----- 
 export function declareBrokenLink(index) {
@@ -107,6 +109,20 @@ export function requestFailed(requestType, error) {
     error: error,
     requestType: requestType
   }
+}
+
+export function enableUserFilter() {
+  return {
+    type: USER_FILTER_CHANGE,
+    enabled: true
+  };
+}
+
+export function disableUserFilter() {
+  return {
+    type: USER_FILTER_CHANGE,
+    enabled: false
+  };
 }
 
 export function requestPosts() {

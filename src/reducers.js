@@ -11,6 +11,15 @@ function errors(state=[], action) {
   }
 }
 
+function filterUserOnly(state=false, action) {
+  switch (action.type) {
+    case actions.USER_FILTER_CHANGE:
+      return action.enabled;
+    default:
+      return state;
+  }
+}
+
 function pinsStatus(state=actions.FETCH_PINS_NONE, action) {
   switch (action.type) {
     case actions.FETCH_PINS_REQUEST:
@@ -115,6 +124,7 @@ function userHandle(state='', action) {
 export default function rootReducer(state={}, action) {
   return {
     errors: errors(state.errors, action),
+    filterUserOnly: filterUserOnly(state.filterUserOnly, action),
     pins: pins(state.pins, action),
     pinsStatus: pinsStatus(state.pinStatus, action),
     newPin: newPin(state.newPin, action),

@@ -68,6 +68,7 @@ const Pins = (props) => {
   );
 }
 Pins.propTypes = {
+  userHandle: PropTypes.string,
   pins: PropTypes.arrayOf(PropTypes.shape({
     img_url: PropTypes.string.isRequired,
     uploader: PropTypes.string.isRequired,
