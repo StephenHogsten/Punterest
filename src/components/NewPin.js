@@ -1,10 +1,9 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { 
-  FOUND_SUCCESS,
-  NEW_PIN_SUBMITTED,
-  NEW_PIN_SUCCESS,
-  NEW_PIN_FAILURE 
+  SUCCESS,
+  SUBMITTED,
+  FAILURE 
 } from '../actions';
 import '../scss/NewPin.scss';
 
@@ -19,21 +18,21 @@ class NewPin extends Component {
   }
   componentWillUpdate(nextProps) {
     this.redirectIfNotLoggedIn(nextProps);
-    if (nextProps.saving_status === NEW_PIN_SUCCESS) {
+    if (nextProps.saving_status === SUCCESS) {
       this.props.pushHistory('/');
     }
   }
   render() {
     let savingComponent;
     switch (this.props.saving_status) {
-      case NEW_PIN_SUBMITTED: 
+      case SUBMITTED: 
         savingComponent = (
           <div>
             <i className='material-icons spin-icon'>insert_emoticon</i>
           </div>
         );
         break;
-      case NEW_PIN_FAILURE:
+      case FAILURE:
         savingComponent = (
           <div className='error-message'>
             Saving Failed. Note: one user may not upload the same image twice
@@ -58,7 +57,7 @@ class NewPin extends Component {
           <button 
             type='button'
             className='submit-button'
-            disabled={this.props.img_status !== FOUND_SUCCESS}
+            disabled={this.props.img_status !== SUCCESS}
             onClick={() => this.props.submit(this.props.img_status, this.props.img_url)}
           >
             Create Pin

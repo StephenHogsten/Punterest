@@ -11,15 +11,6 @@ function errors(state=[], action) {
   }
 }
 
-function filterOn(state=false, action) {
-  switch (action.type) {
-    case actions.USER_FILTER_CHANGE:
-      return action.enabled;
-    default:
-      return state;
-  }
-}
-
 function filterUser(state='', action) {
   switch (action.type) {
     case actions.USER_FILTER_CHANGE:
@@ -118,12 +109,12 @@ function newPin(state={
     // we decided whether we found it 
     case actions.NEW_PIN_IMAGE_FOUND: {
       let temp = Object.assign( {}, state);
-      if (action.img_status === actions.FOUND_FAILURE) {  
+      if (action.img_status === actions.FAILURE) {  
         // if we load an image unsuccessfully set it to failure
-        temp.img_status = actions.FOUND_FAILURE;
-      } else if (action.img_status === actions.FOUND_SUCCESS && state.img_status === actions.FINDING) {
+        temp.img_status = actions.FAILURE;
+      } else if (action.img_status === actions.SUCCESS && state.img_status === actions.FINDING) {
         // if we load an image successfully, make sure it's not the error image before saving
-        temp.img_status = actions.FOUND_SUCCESS;
+        temp.img_status = actions.SUCCESS;
       }
       return temp;
     }
@@ -173,7 +164,6 @@ function userHandle(state='', action) {
 export default function rootReducer(state={}, action) {
   return {
     errors: errors(state.errors, action),
-    filterOn: filterOn(state.filterOn, action),
     filterUser: filterUser(state.filterUser, action),
     pins: pins(state.pins, action),
     pinUpdateQueue: pinUpdateQueue(state.pinSaveStatus, action),

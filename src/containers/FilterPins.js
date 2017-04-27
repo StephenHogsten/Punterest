@@ -7,9 +7,8 @@ import {
 } from '../actions';
 import Pins from '../components/Pins';
 
-function getVisiblePins(pins, filterOn, filterUser) {
+function getVisiblePins(pins, filterUser) {
   if (!filterUser) return pins;
-  if (!filterOn) return pins;
   filterUser = filterUser.toUpperCase();
   return pins.filter( (pin) => pin.uploader.toUpperCase() === filterUser); 
 }
@@ -17,7 +16,7 @@ function getVisiblePins(pins, filterOn, filterUser) {
 const mapStateToProps = (state) => {
   return {
     userHandle: state.userHandle,
-    pins: getVisiblePins(state.pins, state.filterOn, state.filterUser)
+    pins: getVisiblePins(state.pins, state.filterUser)
   }
 }
 

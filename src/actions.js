@@ -12,13 +12,8 @@ export const NONE = 'NONE';
 export const FETCHING = 'FETCHING';
 export const SUCCESS = 'SUCCESS';
 export const FAILURE = 'FAILURE';
-
-export const FOUND_SUCCESS = 'FOUND_SUCCESS';
-export const FOUND_FAILURE = 'FOUND_FAILURE';
 export const NOT_SUBMITTED = 'NOT_SUBMITTED';
-export const NEW_PIN_SUBMITTED = 'NEW_PIN_SUBMITTED';
-export const NEW_PIN_SUCCESS = 'NEW_PIN_SUCCESS';
-export const NEW_PIN_FAILURE = 'NEW_PIN_FAILURE';
+export const SUBMITTED = 'NEW_PIN_SUBMITTED';
 
 // ----- ACTION TYPES -----
 export const NEW_ERROR = 'NEW_ERROR';
@@ -76,7 +71,7 @@ export function foundNewImage(newStatus) {
   }
 }
 
-export function submitForm(result) {
+function submitForm(result) {
   return {
     type: NEW_PIN_SUBMIT,
     result: result
@@ -85,8 +80,8 @@ export function submitForm(result) {
 
 export function fetchSumbitForm(img_status, img_url) {
   return (dispatch) => {
-    if (img_status !== FOUND_SUCCESS) { return; }
-    dispatch(submitForm(NEW_PIN_SUBMITTED));
+    if (img_status !== SUCCESS) { return; }
+    dispatch(submitForm(SUBMITTED));
     return fetch('/api/pin/', {
       credentials: 'same-origin',
       method: 'POST',
@@ -99,13 +94,13 @@ export function fetchSumbitForm(img_status, img_url) {
     })
       .then(response => response.json())
       .then(json => {
-        if (json.success === false) { dispatch(submitForm(NEW_PIN_FAILURE)); }
+        if (json.success === false) { dispatch(submitForm(FAILURE)); }
         else { 
           dispatch(fetchPosts());
-          dispatch(submitForm(NEW_PIN_SUCCESS)); 
+          dispatch(submitForm(SUCCESS)); 
         }
       })
-      .catch(err => dispatch(submitForm(NEW_PIN_FAILURE)) );
+      .catch(err => dispatch(submitForm(FAILURE)) );
   }
 }
 

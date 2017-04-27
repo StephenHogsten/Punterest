@@ -107,7 +107,7 @@ authenticate requests with jwt?
 ======
 
 - [X] make a new icon
-- [ ] clean-up the statuses (just use the same ones and change the type)
+- [X] clean-up the statuses some (just use the same ones and change the type)
 - [ ] explain all the webpack nonsense in my notes
 - [ ] explain redux in my notes (along with the best patterns)
 
