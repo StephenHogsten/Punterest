@@ -100,9 +100,9 @@ authenticate requests with jwt?
 - [X] be able to delete images
 - [X] clean out create react app
 - [X] clean out consoles
-- [ ] make sure I can generate a actual build with webpack (not just )
+- [X] make sure I can generate a actual build with webpack (not just )
 - make sure I don't need cookie-parser, react-fontawesome and remove them
-- [ ] deploy to heroku
+- [X] deploy to heroku
 
 ======
 
@@ -118,12 +118,12 @@ authenticate requests with jwt?
 - [X] map out the different components
 
 ## Bonus
+- [ ] separate the user filters to their own paths
+- [ ] make a starter repo for myself
+- [ ] paging for the pins (this probably keeps masonry from freaking out)
+- [ ] display saving error messages
+- [ ] create an algorithm to rank what's shown first
+- [ ] allow user to choose by most popular, most recent, and algorithm
 - [ ] the middleware definitely isn't working correctly.  stupid head
 - [X] validate image before saving pin (in client)
 - [ ] validate image before saving pin (in server)
-- [ ] paging for the pins (this probably keeps masonry from freaking out)
-- [ ] display saving error messages
-- [ ] make a starter repo for myself
-- [ ] separate the user filters to their own paths
-- [ ] create an algorithm to rank what's shown first
-- [ ] allow user to choose by most popular, most recent, and algorithm
